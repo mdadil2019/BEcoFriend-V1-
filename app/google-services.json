@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "426567449662",
+    "firebase_url": "https://becofriend-558e8.firebaseio.com",
+    "project_id": "becofriend-558e8",
+    "storage_bucket": "becofriend-558e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426567449662:android:98aea0c48b3661c2",
+        "android_client_info": {
+          "package_name": "com.environer.becofriend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426567449662-5kklqopuut3a04kme4m9gk30n7ju2htq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.environer.becofriend",
+            "certificate_hash": "f675c6594e0e8dd9f40bb4f82c7b35eb61ea5201"
+          }
+        },
+        {
+          "client_id": "426567449662-fg3sn1ffrvjp3oqmbcn87eulotno3hnh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXaL2DhU305pum4rZnm7k8Nrppb1XOZks"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426567449662-fg3sn1ffrvjp3oqmbcn87eulotno3hnh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">BEcoFriend</string>
+    <string name="emailHint">E-mail</string>
+    <string name="passHint">Password</string>
+    <string name="signInText">Sign In</string>
+    <string name="orText">OR</string>
+    <string name="logOut">Logout</string>
+    <string name="newUserText">New User? Sign Up</string>
+    <string name="newUserNameText">Enter New Username</string>
+    <string name="signUpText">SignUp</string>
+    <string name="fullNameProfile">Enter your full name</string>
+    <string name="uploadImageProfile">Upload Image</string>
+    <string name="profileSet">Set Profile</string>
+</resources>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.environer.becofriend.LoginActivity"
+    android:orientation="vertical"
+    android:background="@drawable/backr"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/editTextEmailLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.8"
+        android:background="@drawable/rounded_edittext"
+        android:ems="10"
+        android:hint="@string/emailHint"
+        android:inputType="textEmailAddress"
+        android:padding="@dimen/editTextPaddings"
+        android:textColorHint="@color/colorAccent"
+        android:textColor="@color/colorAccent"
+        android:drawableLeft="@drawable/ic_email_white_24px"
+        android:drawablePadding="@dimen/paddingwithIcon"/>
+
+
+    <EditText
+        android:id="@+id/editTextPassLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/passboxTopMargin"
+        android:alpha="0.8"
+        android:background="@drawable/rounded_edittext"
+        android:ems="10"
+        android:hint="@string/passHint"
+        android:inputType="textPassword"
+        android:padding="@dimen/editTextPaddings"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorAccent"
+        android:drawableLeft="@drawable/ic_lock_outline_white_24px"
+        android:drawablePadding="@dimen/paddingwithIcon"/>
+
+    <Button
+        android:id="@+id/signinBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/passboxTopMargin"
+        android:background="@drawable/rounded_edittext"
+        android:text="@string/signInText"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/orText" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleSignInBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </com.google.android.gms.common.SignInButton>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="2dp"
+        android:background="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/textViewNewUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/newUserText"
+        android:textStyle="bold"
+        android:textSize="@dimen/signUpTextSize"/>
+
+</LinearLayout>

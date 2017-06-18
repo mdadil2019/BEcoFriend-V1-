@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.environer.becofriend.ProfileActivity"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/colorPrimary">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageViewProfile"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/backr" />
+
+    <TextView
+        android:id="@+id/textViewUploadImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/uploadImageProfile"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"/>
+
+    <EditText
+        android:id="@+id/editTextNameProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/fullNameProfile"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:textColorHint="@android:color/black"/>
+
+    <Button
+        android:id="@+id/button_profileSet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profileSet"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/rounded_edittext"
+        android:padding="@dimen/editTextPaddings"
+/>
+    <Button
+        android:id="@+id/logOutBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logOut"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/rounded_edittext"
+        android:padding="@dimen/editTextPaddings"
+        android:layout_marginTop="@dimen/passboxTopMargin"
+/>
+</LinearLayout>

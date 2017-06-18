@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="editTextPaddings">20dp</dimen>
+    <dimen name="passboxTopMargin">5dp</dimen>
+    <dimen name="paddingwithIcon">10dp</dimen>
+    <dimen name="signUpTextSize">15dp</dimen>
+    <dimen name="llPadding">20dp</dimen>
+</resources>
