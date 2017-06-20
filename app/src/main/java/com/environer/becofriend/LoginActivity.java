@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        final AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -116,6 +116,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             FirebaseUser user = mAuth.getCurrentUser();
                             startActivity(new Intent(LoginActivity.this,ProfileActivity.class));
                             Toast.makeText(LoginActivity.this,"Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                            finish();
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -165,6 +166,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     //Show status with spinning bar
                     //If not exist then register it
                     if(!userName.equals("") && !pass.equals("")) {
+                        progressDialog.setMessage("Preparing for authentication...");
+                        progressDialog.show();
                         mDatabase.child("Users").child(userName).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -174,6 +177,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 else{
                                     if(!created)
                                         Toast.makeText(LoginActivity.this, "Username already exist, Please chose another", Toast.LENGTH_LONG).show();
+                                        progressDialog.dismiss();
                                 }
                             }
 
@@ -193,8 +197,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void createId(final String userName, String pass) {
         created = true;
         String email = userName+"@eco.com";
-        progressDialog.setMessage("Creating your account...");
-        progressDialog.show();
+
         mAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -204,6 +207,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     i.putExtra("userName",userName);
                     startActivity(i);
                     Toast.makeText(LoginActivity.this, "Welcome " + userName, Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -224,6 +228,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
                             progressDialog.dismiss();
+                            startActivity(new Intent(LoginActivity.this,ContentActivity.class));
                             Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
 
                         }

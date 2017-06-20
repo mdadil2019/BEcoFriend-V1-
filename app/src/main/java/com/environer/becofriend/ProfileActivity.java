@@ -1,8 +1,10 @@
 package com.environer.becofriend;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +13,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.environer.becofriend.utils.Constants;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +40,7 @@ import butterknife.ButterKnife;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final int SELECT_PICTURE = 1;
+    private static final int CITY_SELECT_REQUEST = 2;
     private DatabaseReference mDatabase;
     private StorageReference mStorageRef;
     private String profileImageLink;
@@ -41,7 +50,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @BindView(R.id.imageViewProfile)ImageView profileImageView;
     @BindView(R.id.editTextNameProfile)EditText profileName;
     @BindView(R.id.button_profileSet)Button profileSetBtn;
+    @BindView(R.id.textViewSelectCity)TextView selectCity;
     private Uri imagePath;
+    private String selectedCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +68,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         uploadTv.setOnClickListener(this);
         profileImageView.setOnClickListener(this);
         profileSetBtn.setOnClickListener(this);
+        selectCity.setOnClickListener(this);
     }
 
     public void addUserInfo(String imageLink){
+//        String city = spinner.getSelectedItem().toString();
+            String city = selectedCity.replace(',',' ');//Since firebase wouldn't take keys with special characters
         String userName =  getIntent().getStringExtra("userName");
         mDatabase.child(Constants.USERS).child(userName).child(Constants.FULL_NAME).setValue(profileName.getText().toString());
         mDatabase.child(Constants.USERS).child(userName).child(Constants.IMAGE_LINK).setValue(imageLink);
+        mDatabase.child(Constants.USERS).child(userName).child(Constants.CITY).setValue(city);
+        saveData(userName,city);
     }
 
     public void pickImage(){
@@ -88,10 +104,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }
             });
         }
+        else if(requestCode == CITY_SELECT_REQUEST){
+            if(resultCode == RESULT_OK){
+                Place place = PlacePicker.getPlace(this,data);
+                selectedCity = String.valueOf(place.getAddress());
+                selectCity.setText(selectedCity);
+                Toast.makeText(this, "Make sure you have selected city,not current location", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private void uploadImageToFbStorage(Uri data) {
-        progressDialog.setMessage("Uploading image...");
+        progressDialog.setMessage("Uploading your details...");
         progressDialog.show();
         StorageReference imageRef = mStorageRef.child(Constants.PROFILE_IMAGES).child(String.valueOf(data));
         imageRef.putFile(data)
@@ -104,6 +128,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             addUserInfo(profileImageLink);
                         progressDialog.dismiss();
                         startActivity(new Intent(ProfileActivity.this,ContentActivity.class));
+                        finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -112,6 +137,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void saveData(String userName,String city) {
+        SharedPreferences sharedPreferences = getSharedPreferences("Shrd",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.USER_NAME,userName);
+        editor.putString(Constants.CITY,city);
+        editor.commit();
     }
 
     @Override
@@ -125,15 +158,32 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         else if(view == uploadTv || view == profileImageView){
             pickImage();
         }
+        else if(view == selectCity){
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            try {
+                startActivityForResult(builder.build(this),CITY_SELECT_REQUEST);
+                Toast.makeText(this, "Search your city name in above search box", Toast.LENGTH_LONG).show();
+            } catch (GooglePlayServicesRepairableException e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (GooglePlayServicesNotAvailableException e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
         else if(view == profileSetBtn){
-            if(profileImageLink!=null && !profileImageLink.equals("")){
                 String pName = profileName.getText().toString();
                 if(pName!=null && !pName.equals("")){
-                        if(imagePath!=null && !imagePath.equals(""))
-                            uploadImageToFbStorage(imagePath);
+                        if(imagePath!=null && !imagePath.equals("")) {
+//                            if(!spinner.getSelectedItem().toString().equals("Select City"))
+//                                uploadImageToFbStorage(imagePath);
+
+                            if(!selectedCity.equals("Select City")&&!selectedCity.equals("")){
+                                //call uploadImageToFbStorage
+                                uploadImageToFbStorage(imagePath);
+                            }
+                        }
 
                 }
-            }
+
         }
 
     }

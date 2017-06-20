@@ -11,4 +11,22 @@
     <string name="fullNameProfile">Enter your full name</string>
     <string name="uploadImageProfile">Upload Image</string>
     <string name="profileSet">Set Profile</string>
+    <string name="problem">Problems</string>
+    <string name="takeImage">Capture Image</string>
+    <string name="takeVideo">Record Video</string>
+    <string name="infoAboutIssue">Share problem</string>
+    <string name="selectLocation">Select Issue Location</string>
+    <string name="postBtnText">POST</string>
+    <string name="address">Address</string>
+    <string name="selectCity">Select City</string>
+
+    <string-array name="cities">
+        <item>Select City</item>
+        <item>Lucknow</item>
+        <item>Kanpur</item>
+        <item>Delhi</item>
+        <item>Bombay</item>
+        <item>Ahamdabad</item>
+        <item>Other</item>
+    </string-array>
 </resources>

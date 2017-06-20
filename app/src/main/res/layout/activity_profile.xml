@@ -11,8 +11,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageViewProfile"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:src="@drawable/backr" />
 
@@ -36,6 +36,15 @@
         android:textAlignment="center"
         android:textColorHint="@android:color/black"/>
 
+    <TextView
+        android:id="@+id/textViewSelectCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/selectCity"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/selectCitySize"
+        android:layout_marginBottom="@dimen/passboxTopMargin"/>
+
     <Button
         android:id="@+id/button_profileSet"
         android:layout_width="wrap_content"
@@ -44,6 +53,7 @@
         android:textColor="@color/colorAccent"
         android:background="@drawable/rounded_edittext"
         android:padding="@dimen/editTextPaddings"
+        android:layout_marginTop="@dimen/passboxTopMargin"
 />
     <Button
         android:id="@+id/logOutBtn"

@@ -5,4 +5,12 @@
     <dimen name="paddingwithIcon">10dp</dimen>
     <dimen name="signUpTextSize">15dp</dimen>
     <dimen name="llPadding">20dp</dimen>
+    <dimen name="problemTextSize">20dp</dimen>
+    <dimen name="problemMargin">10dp</dimen>
+    <dimen name="searchViewSize">45dp</dimen>
+    <dimen name="MenuItemsSize">20dp</dimen>
+    <dimen name="locationPickUpSize">20sp</dimen>
+    <dimen name="postBtnTopMargin">10dp</dimen>
+    <dimen name="sizeAddress">15dp</dimen>
+    <dimen name="selectCitySize">18sp</dimen>
 </resources>

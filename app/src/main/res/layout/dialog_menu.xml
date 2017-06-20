@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/llPadding">
+
+    <TextView
+        android:id="@+id/textViewTakeImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_photo_camera_black_24px"
+        android:drawablePadding="@dimen/paddingwithIcon"
+        android:text="@string/takeImage"
+        android:textSize="@dimen/MenuItemsSize" />
+
+    <TextView
+        android:id="@+id/textViewTakeVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_videocam_black_24px"
+        android:drawablePadding="@dimen/paddingwithIcon"
+        android:text="@string/takeVideo"
+        android:textSize="@dimen/MenuItemsSize" />
+
+    <TextView
+        android:id="@+id/textViewProfileMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_account_circle_black_24px"
+        android:drawablePadding="@dimen/paddingwithIcon"
+        android:text="@string/profileSet"
+        android:textSize="@dimen/MenuItemsSize" />
+</LinearLayout>
