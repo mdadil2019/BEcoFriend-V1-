@@ -39,12 +39,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.zelory.compressor.Compressor;
 
 import static com.environer.becofriend.utils.Constants.*;
 import static com.environer.becofriend.utils.Constants.CITY;
@@ -135,6 +137,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
             contentDirectory.mkdir();
         intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(videoFile));
         intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT,10);
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,0);
         startActivityForResult(intent,VIDEO_REQUEST);
 
     }
@@ -234,15 +237,23 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         progressDialog.show();
 
         StorageReference ref;
-        File fileToUpload;
+        File fileToUpload=null;
         if(isImage) {
             ref = mStorage.child(POST_IMAGE).child(imageFile.getName());
-            fileToUpload = imageFile;
+//            fileToUpload = imageFile;
+            try {
+                fileToUpload = new Compressor(this).compressToFile(imageFile);
+            } catch (IOException e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
         else {
             ref = mStorage.child(POST_VIDEO).child(videoFile.getName());
             fileToUpload = videoFile;
+
         }
+
+
 
             ref.putFile(Uri.fromFile(fileToUpload)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

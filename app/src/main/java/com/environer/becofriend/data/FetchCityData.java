@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -71,19 +72,32 @@ public class FetchCityData extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        ContentAdapter adapter = new ContentAdapter(context,myData);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
-        progressDialog.dismiss();
+
+
     }
 
     private void getData() {
         myData = new ArrayList<>();
+        cityRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(progressDialog.isShowing())
+                    progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         cityRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                storeDataInArray(dataSnapshot);
+                    storeDataInArray(dataSnapshot);
+
+                if(progressDialog.isShowing())
+                    progressDialog.dismiss();
+
             }
 
             @Override
@@ -110,23 +124,69 @@ public class FetchCityData extends AsyncTask<Void,Void,Void> {
 
     private void storeDataInArray(DataSnapshot dataSnapshot) {
         dataModel = new PostContents();
-        for(DataSnapshot ds : dataSnapshot.getChildren()){
-            if(ds.getKey().equals(ADDRESS))
-                dataModel.setAddress(ds.getValue().toString());
-            else if(ds.getKey().equals(LATITUDE))
-                dataModel.setLatitude(ds.getValue().toString());
-            else if(ds.getKey().equals(LONGITUDE))
-                dataModel.setLongitude(ds.getValue().toString());
-            else if(ds.getKey().equals(MAIN_USER))
-                dataModel.setMainUser(ds.getValue().toString());
-            else if(ds.getKey().equals(POST_IMAGE) || ds.getKey().equals(POST_VIDEO))
-                dataModel.setDownnloadLink(ds.getValue().toString());
-            else if(ds.getKey().equals(PROBLEM))
-                dataModel.setProblem(ds.getValue().toString());
+        if(dataSnapshot.getChildrenCount()==6) {
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                if (ds.getKey().equals(ADDRESS))
+                    dataModel.setAddress(ds.getValue().toString());
+                else if (ds.getKey().equals(LATITUDE))
+                    dataModel.setLatitude(ds.getValue().toString());
+                else if (ds.getKey().equals(LONGITUDE))
+                    dataModel.setLongitude(ds.getValue().toString());
+                else if (ds.getKey().equals(MAIN_USER))
+                    dataModel.setMainUser(ds.getValue().toString());
+                else if (ds.getKey().equals(POST_IMAGE) || ds.getKey().equals(POST_VIDEO))
+                    dataModel.setDownnloadLink(ds.getValue().toString());
+                else if (ds.getKey().equals(PROBLEM))
+                    dataModel.setProblem(ds.getValue().toString());
 
+            }
+        }
+        else{
+            DatabaseReference newChild = cityRef.child(dataSnapshot.getKey());
+            newChild.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot ds, String s) {
+                    if (ds.getKey().equals(ADDRESS))
+                        dataModel.setAddress(ds.getValue().toString());
+                    else if (ds.getKey().equals(LATITUDE))
+                        dataModel.setLatitude(ds.getValue().toString());
+                    else if (ds.getKey().equals(LONGITUDE))
+                        dataModel.setLongitude(ds.getValue().toString());
+                    else if (ds.getKey().equals(MAIN_USER))
+                        dataModel.setMainUser(ds.getValue().toString());
+                    else if (ds.getKey().equals(POST_IMAGE) || ds.getKey().equals(POST_VIDEO))
+                        dataModel.setDownnloadLink(ds.getValue().toString());
+                    else if (ds.getKey().equals(PROBLEM))
+                        dataModel.setProblem(ds.getValue().toString());
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
         myData.add(dataModel);
 
+        ContentAdapter adapter = new ContentAdapter(context,myData);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
     }
 
     void getUserCity(){

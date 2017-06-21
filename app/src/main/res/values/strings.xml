@@ -19,6 +19,8 @@
     <string name="postBtnText">POST</string>
     <string name="address">Address</string>
     <string name="selectCity">Select City</string>
+    <string name="ratingLabel">Total Rating</string>
+    <string name="fullNameDetail">Full Name</string>
 
     <string-array name="cities">
         <item>Select City</item>

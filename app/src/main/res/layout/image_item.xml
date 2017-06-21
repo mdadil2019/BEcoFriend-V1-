@@ -9,7 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/imageViewContent"
@@ -18,20 +19,33 @@
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
 
-        <TextView
-            android:id="@+id/textViewAddressImage"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/address"
-            android:textAlignment="center"
-            android:textSize="@dimen/sizeAddress"
-            android:textStyle="bold" />
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textViewAddressImage"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:textAlignment="center"
+                android:textSize="@dimen/sizeAddress"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imageViewMapImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_location_on_black_36px" />
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/textViewProblemsImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/problemMargin"
             android:text="@string/problem"
             android:textSize="@dimen/problemTextSize" />
 
@@ -39,7 +53,6 @@
             android:id="@+id/ratingBarImage"
             style="@android:style/Widget.Holo.RatingBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/problemMargin" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

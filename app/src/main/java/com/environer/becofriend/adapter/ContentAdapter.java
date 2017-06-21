@@ -30,6 +30,9 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -91,12 +94,16 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
         }
     }
 
-    private void populateVideoView(MyViewHolder holder, PostContents currentCon) {
-        VideoViewHolder videoViewHolder = (VideoViewHolder)holder;
+    private void populateVideoView(final MyViewHolder holder, final PostContents currentCon) {
+        final VideoViewHolder videoViewHolder = (VideoViewHolder)holder;
         videoViewHolder.problemTv.setText(currentCon.getProblem());
         videoViewHolder.addressTv.setText(currentCon.getAddress());
-        Uri uri = Uri.parse(currentCon.getDownnloadLink());
+        final Uri uri = Uri.parse(currentCon.getDownnloadLink());
         playVideo(uri,videoViewHolder.exoPlayerView);
+
+        //exoplayer click listner is not working here
+
+
     }
 
     private void playVideo(Uri uri,SimpleExoPlayerView mExoPlayerView) {
@@ -124,19 +131,28 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
     }
 
     private void populateImageView(MyViewHolder holder, PostContents currentContent) {
-        ImageViewHolder imageViewHolder = (ImageViewHolder)holder;
+        final ImageViewHolder imageViewHolder = (ImageViewHolder)holder;
 
 
         imageViewHolder.problemTv.setText(currentContent.getProblem());
         imageViewHolder.addressTv.setText(currentContent.getAddress());
-        Picasso.with(context).load(currentContent.getDownnloadLink()).error(R.drawable.error).into(imageViewHolder.imageView);
+        Picasso p = new Picasso.Builder(context).memoryCache(new LruCache(24000)).build();
+        p.load(currentContent.getDownnloadLink()).error(R.drawable.error).into(imageViewHolder.imageView);
+        imageViewHolder.imageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, String.valueOf(imageViewHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0)
-            return 0;
-        return 1;
+        String url = myDatabase.get(position).getDownnloadLink();
+            if (url.contains("IMG"))
+                return 0;
+            return 1;
+
     }
 
     @Override
