@@ -19,7 +19,9 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,7 +85,10 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     ProgressDialog progressDialog;
     @BindView(R.id.fab_menu)FloatingActionButton menu_fab;
     private TextView selectLocation;
+    public static RadioButton localPostBtn1,allPostBtn1;
     @BindView(R.id.recyclerView)RecyclerView recyclerView;
+    @BindView(R.id.localPostBtn)RadioButton localPostBtn;
+    @BindView(R.id.allPostBtn)RadioButton allPostBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,14 +96,35 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_content);
         contentAct = this;
         ButterKnife.bind(this);
+        localPostBtn1 = localPostBtn;
+        allPostBtn1 = allPostBtn;
         progressDialog = new ProgressDialog(this);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference();
         menu_fab.setOnClickListener(this);
-//        FetchCityData myCityData = new FetchCityData(this,recyclerView);
-//        myCityData.getData();
-        FetchAllData fetchAllData = new FetchAllData(this,recyclerView);
-        fetchAllData.getAllData();
+        localPostBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked)
+                {
+                    FetchCityData myCityData = new FetchCityData(ContentActivity.this,recyclerView);
+                    myCityData.getData();
+                }
+            }
+        });
+        allPostBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b) {
+                    FetchAllData fetchAllData = new FetchAllData(ContentActivity.this, recyclerView);
+                    fetchAllData.getAllData();
+                }
+            }
+        });
+        FetchCityData myCityData = new FetchCityData(this,recyclerView);
+        myCityData.getData();
+//        FetchAllData fetchAllData = new FetchAllData(this,recyclerView);
+//        fetchAllData.getAllData();
 
     }
 
@@ -136,6 +162,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
                 }
             });
         }
+
     }
 
     private void getInfoAndStartIntent() {
@@ -208,8 +235,12 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onPause() {
         super.onPause();
-        if(FetchAllData.progressDialog.isShowing())
+        ProgressDialog pgdl = FetchAllData.progressDialog;
+        if(pgdl!=null && pgdl.isShowing())
             FetchAllData.progressDialog.dismiss();
+        ProgressDialog pgdlcity = FetchCityData.progressDialog;
+        if(pgdlcity!=null && pgdlcity.isShowing())
+            pgdl.dismiss();
         SimpleExoPlayer  exo = ContentAdapter.returnInstance();
         if(exo!=null){
             exo.release();

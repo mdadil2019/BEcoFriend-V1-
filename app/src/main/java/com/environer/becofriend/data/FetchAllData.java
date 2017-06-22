@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 import com.environer.becofriend.ContentActivity;
 import com.environer.becofriend.R;
@@ -70,7 +71,10 @@ public class FetchAllData {
         mDatabase.child(CITY).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                getCityData(dataSnapshot);
+                if(dataSnapshot.exists())
+                    getCityData(dataSnapshot);
+                else
+                    Toast.makeText(context, "No any posts are available", Toast.LENGTH_SHORT).show();
                 if(progressDialog.isShowing())
                     progressDialog.dismiss();
 
@@ -208,12 +212,13 @@ public class FetchAllData {
 
 
     private int numberofColumn(){
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int widthDivider = 400;
-        int width = displayMetrics.widthPixels;
-        int nColumns = width / widthDivider;
-        if(nColumns<2)return 2;
-        return nColumns;
+        return 2;
     }
+//    DisplayMetrics displayMetrics = new DisplayMetrics();
+//        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//    int widthDivider = 400;
+//    int width = displayMetrics.widthPixels;
+//    int nColumns = width / widthDivider;
+//        if(nColumns<2)return 2;
+//        return nColumns;
 }

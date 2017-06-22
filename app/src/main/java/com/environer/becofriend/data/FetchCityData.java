@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
+import com.environer.becofriend.ContentActivity;
 import com.environer.becofriend.R;
 import com.environer.becofriend.adapter.ContentAdapter;
 import com.environer.becofriend.model.PostContents;
@@ -47,7 +48,7 @@ public class FetchCityData {
     ArrayList<PostContents> myData;
     PostContents dataModel;
     RecyclerView recyclerView;
-    ProgressDialog progressDialog;
+    public static ProgressDialog progressDialog;
     private int count;
     private long totalCount;
     boolean isLandscape;
@@ -80,6 +81,12 @@ public class FetchCityData {
         cityRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount()==0) {
+                    Toast.makeText(context, "There is no any post in your area", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    ContentActivity.localPostBtn1.setChecked(true);
+                }
                 if(progressDialog.isShowing())
                     progressDialog.dismiss();
             }
@@ -229,13 +236,14 @@ public class FetchCityData {
     }
 
     private int numberofColumn(){
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int widthDivider = 400;
-        int width = displayMetrics.widthPixels;
-        int nColumns = width / widthDivider;
-        if(nColumns<2)return 2;
-        return nColumns;
+
+        return 2;
+//        DisplayMetrics displayMetrics = new DisplayMetrics();
+//        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//        int widthDivider = 400;
+//        int width = displayMetrics.widthPixels;
+//        int nColumns = width / widthDivider;
+//        if(nColumns<2)return 2;
     }
 
     void getUserCity(){

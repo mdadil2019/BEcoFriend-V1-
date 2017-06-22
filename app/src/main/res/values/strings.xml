@@ -32,6 +32,8 @@
     <string name="uploadDescription">Uplaod your profile image</string>
     <string name="cityDescription">Select your city</string>
     <string name="logOutDescription">Logout Button</string>
+    <string name="localPostText">Local posts</string>
+    <string name="allPostText">All posts</string>
 
     <string-array name="cities">
         <item>Select City</item>

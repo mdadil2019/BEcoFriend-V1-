@@ -18,4 +18,6 @@
     <dimen name="ratingLableSize">18sp</dimen>
     <dimen name="fullNameSize">20sp</dimen>
     <dimen name="tabletLoginTextSize">25sp</dimen>
+    <dimen name="toolbarTitleSize">25dp</dimen>
+    <dimen name="toolbarHeight">50dp</dimen>
 </resources>
