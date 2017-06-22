@@ -8,6 +8,8 @@
     android:weightSum="1">
 
     <EditText
+        android:contentDescription="@string/enterNewUserName"
+
         android:id="@+id/editTextUserNameReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,6 +25,8 @@
         android:textSize="@dimen/tabletLoginTextSize" />
 
     <EditText
+        android:contentDescription="@string/enterNewPassword"
+
         android:id="@+id/editTextPassReg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,6 +43,7 @@
         android:textSize="@dimen/tabletLoginTextSize" />
 
     <Button
+        android:contentDescription="@string/signUpDescription"
         android:id="@+id/button_signUp"
         android:layout_width="166dp"
         android:layout_height="wrap_content"

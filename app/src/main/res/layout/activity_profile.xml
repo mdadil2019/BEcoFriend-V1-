@@ -10,6 +10,7 @@
     android:background="@color/colorPrimary">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:contentDescription="@string/uploadDescription"
         android:id="@+id/imageViewProfile"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -17,6 +18,7 @@
         android:src="@drawable/backr" />
 
     <TextView
+        android:contentDescription="@string/uploadDescription"
         android:id="@+id/textViewUploadImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +28,7 @@
         android:textColor="@android:color/black"/>
 
     <EditText
+        android:contentDescription="@string/enterFullName"
         android:id="@+id/editTextNameProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,6 +40,7 @@
         android:textColorHint="@android:color/black"/>
 
     <TextView
+        android:contentDescription="@string/cityDescription"
         android:id="@+id/textViewSelectCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,6 +50,7 @@
         android:layout_marginBottom="@dimen/passboxTopMargin"/>
 
     <Button
+        android:contentDescription="@string/profileSet"
         android:id="@+id/button_profileSet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,6 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp" />
     <Button
+        android:contentDescription="@string/logOutDescription"
         android:id="@+id/logOutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

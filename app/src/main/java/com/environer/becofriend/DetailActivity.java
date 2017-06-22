@@ -178,6 +178,9 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        if(progressDialog.isShowing())
+            progressDialog.dismiss();
+
         if(mExoPlayer!=null){
             mExoPlayer.stop();
             mExoPlayer.release();
@@ -200,7 +203,8 @@ public class DetailActivity extends AppCompatActivity {
         ratingTv.setText("Rating: " + rating+" out of 5");
         mainUserName.setText(mainUserFullName);
         Picasso.with(this).load(mainUserImageLink).error(R.drawable.error).into(mainUserImage);
-        progressDialog.dismiss();
+        if(progressDialog.isShowing())
+            progressDialog.dismiss();
 
     }
 

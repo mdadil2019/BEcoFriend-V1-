@@ -21,6 +21,17 @@
     <string name="selectCity">Select City</string>
     <string name="ratingLabel">Total Rating</string>
     <string name="fullNameDetail">Full Name</string>
+    <string name="enterEmail">Enter email address</string>
+    <string name="enterPassword">Enter your password</string>
+    <string name="enterNewUserName">Enter new user name</string>
+    <string name="enterNewPassword">Enter password that you want to set</string>
+    <string name="signUpDescription">Signing Up</string>
+    <string name="signInDescription">Signing In</string>
+    <string name="newAccountDescription">Create new account</string>
+    <string name="enterFullName">Enter your full name</string>
+    <string name="uploadDescription">Uplaod your profile image</string>
+    <string name="cityDescription">Select your city</string>
+    <string name="logOutDescription">Logout Button</string>
 
     <string-array name="cities">
         <item>Select City</item>

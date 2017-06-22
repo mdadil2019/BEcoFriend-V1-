@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 
+import com.environer.becofriend.ContentActivity;
 import com.environer.becofriend.R;
 import com.environer.becofriend.adapter.ContentAdapter;
 import com.environer.becofriend.model.PostContents;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -41,7 +43,7 @@ public class FetchAllData {
     ArrayList<PostContents> allData;
     PostContents dataModel;
     DatabaseReference mDatabase;
-    ProgressDialog progressDialog;
+    public static ProgressDialog progressDialog;
     boolean isLandscape ;
     private int totalCount;
     private int count;
@@ -64,12 +66,14 @@ public class FetchAllData {
     public void getAllData() {
         getReady();
 
+
         mDatabase.child(CITY).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 getCityData(dataSnapshot);
                 if(progressDialog.isShowing())
                     progressDialog.dismiss();
+
             }
 
             @Override
@@ -92,6 +96,7 @@ public class FetchAllData {
 
             }
         });
+
     }
 
     private void getCityData(DataSnapshot dataSnapshot) {
@@ -128,7 +133,6 @@ public class FetchAllData {
                 totalCount++;
                 if (totalCount == 7) {
                     allData.add(dataModel);
-
                     ContentAdapter adapter = new ContentAdapter(context, allData);
                     if (!isLandscape) {
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);

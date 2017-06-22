@@ -11,6 +11,7 @@
     android:weightSum="1">
 
     <EditText
+        android:contentDescription="@string/enterEmail"
         android:id="@+id/editTextEmailLog"
         android:layout_width="341dp"
         android:layout_height="wrap_content"
@@ -28,6 +29,7 @@
 
 
     <EditText
+        android:contentDescription="@string/enterPassword"
         android:id="@+id/editTextPassLog"
         android:layout_width="340dp"
         android:layout_height="wrap_content"
@@ -45,6 +47,8 @@
         android:textSize="@dimen/tabletLoginTextSize"/>
 
     <Button
+        android:contentDescription="@string/signInDescription"
+
         android:id="@+id/signinBtn"
         android:layout_width="172dp"
         android:layout_height="wrap_content"
@@ -63,6 +67,8 @@
         android:textStyle="bold" />
 
     <com.google.android.gms.common.SignInButton
+        android:contentDescription="@string/signInDescription"
+
         android:id="@+id/googleSignInBtn"
         android:layout_width="177dp"
         android:layout_height="wrap_content"
@@ -81,6 +87,7 @@
         />
 
     <TextView
+        android:contentDescription="@string/newAccountDescription"
         android:id="@+id/textViewNewUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

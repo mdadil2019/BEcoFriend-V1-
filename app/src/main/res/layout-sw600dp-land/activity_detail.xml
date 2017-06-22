@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="@dimen/llPadding"
+    tools:context="com.environer.becofriend.DetailActivity">
+
+    <FrameLayout
+        android:layout_width="500dp"
+        android:layout_height="500dp">
+
+        <ImageView
+            android:id="@+id/imageViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/exoPlayerViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"></com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+    </FrameLayout>
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="13dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginRight="15dp"
+                android:clickable="true"
+                app:fabSize="normal"
+                app:srcCompat="@drawable/ic_email_black_36px" />
+        <LinearLayout
+            android:id="@+id/newLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewProblemDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/problem"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:id="@+id/imageViewMapDetail"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/ic_location_on_black_36px" />
+
+            <TextView
+                android:id="@+id/textViewAddressDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textViewRatingLabelDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ratingLabel"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/circularImgMainUser"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
+
+                <TextView
+                    android:id="@+id/textViewMainUDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/fullNameDetail"
+                    android:textSize="30sp" />
+            </LinearLayout>
+        </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+    </LinearLayout>

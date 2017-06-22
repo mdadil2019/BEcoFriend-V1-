@@ -25,4 +25,5 @@ public final class Constants {
     public static final String MESSAGE = "Hello \nThis message is from Environer.Inc, an organization that cares about ecosystem.\n" +
                                             "The place which is mentioned below has very bad impact on society so please take action regarding this.\n" +
                                             "\n";
+    public static final int TASK_LOADER_ID = 22;
 }

@@ -42,7 +42,7 @@ import static com.environer.becofriend.utils.Constants.TOTAL_RATING;
  * Created by Mohammad Adil on 20-06-2017.
  */
 
-public class FetchCityData{
+public class FetchCityData {
     Context context;
     ArrayList<PostContents> myData;
     PostContents dataModel;

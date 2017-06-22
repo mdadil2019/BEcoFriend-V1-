@@ -77,10 +77,10 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     private File videoFile;
     private String address,coOrdinate;
     private boolean isImage;
-    private ProgressDialog progressDialog;
     public static Activity contentAct;
     DatabaseReference mDatabase;
     StorageReference mStorage;
+    ProgressDialog progressDialog;
     @BindView(R.id.fab_menu)FloatingActionButton menu_fab;
     private TextView selectLocation;
     @BindView(R.id.recyclerView)RecyclerView recyclerView;
@@ -105,6 +105,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if(view == menu_fab){
+            getPermissions();
             final Dialog menu_dialog = new Dialog(this);
             menu_dialog.setContentView(R.layout.dialog_menu);
             menu_dialog.show();
@@ -207,6 +208,8 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onPause() {
         super.onPause();
+        if(FetchAllData.progressDialog.isShowing())
+            FetchAllData.progressDialog.dismiss();
         SimpleExoPlayer  exo = ContentAdapter.returnInstance();
         if(exo!=null){
             exo.release();
