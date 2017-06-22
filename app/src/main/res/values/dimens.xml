@@ -17,4 +17,5 @@
     <dimen name="detailTextMargin">20dp</dimen>
     <dimen name="ratingLableSize">18sp</dimen>
     <dimen name="fullNameSize">20sp</dimen>
+    <dimen name="tabletLoginTextSize">25sp</dimen>
 </resources>

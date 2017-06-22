@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/llPadding"
+    android:weightSum="1">
+
+    <EditText
+        android:id="@+id/editTextUserNameReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.8"
+        android:background="@drawable/rounded_edittext"
+        android:ems="10"
+        android:hint="@string/newUserNameText"
+        android:inputType="textPersonName"
+        android:padding="@dimen/editTextPaddings"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorAccent"
+
+        android:textSize="@dimen/tabletLoginTextSize" />
+
+    <EditText
+        android:id="@+id/editTextPassReg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/passboxTopMargin"
+        android:alpha="0.8"
+        android:background="@drawable/rounded_edittext"
+        android:ems="10"
+        android:hint="@string/passHint"
+        android:inputType="textPassword"
+        android:padding="@dimen/editTextPaddings"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorAccent"
+
+        android:textSize="@dimen/tabletLoginTextSize" />
+
+    <Button
+        android:id="@+id/button_signUp"
+        android:layout_width="166dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/passboxTopMargin"
+        android:layout_weight="0.04"
+        android:background="@drawable/rounded_edittext"
+        android:text="@string/signUpText"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/tabletLoginTextSize" />
+
+
+</LinearLayout>

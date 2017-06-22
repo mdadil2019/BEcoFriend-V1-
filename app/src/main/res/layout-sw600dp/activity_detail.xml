@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="13dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:clickable="true"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_email_black_36px" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/llPadding"
+            tools:context="com.environer.becofriend.DetailActivity">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="450dp">
+
+                <ImageView
+                    android:id="@+id/imageViewDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+
+                <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                    android:id="@+id/exoPlayerViewDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"></com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textViewProblemDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/detailTextMargin"
+                android:text="@string/problem"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:id="@+id/imageViewMapDetail"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/ic_location_on_black_36px" />
+
+            <TextView
+                android:id="@+id/textViewAddressDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewRatingLabelDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/detailTextMargin"
+                android:text="@string/ratingLabel"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/llPadding">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/circularImgMainUser"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp" />
+
+                <TextView
+                    android:id="@+id/textViewMainUDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/fullNameDetail"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

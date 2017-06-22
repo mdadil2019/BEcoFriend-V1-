@@ -42,7 +42,7 @@ import static com.environer.becofriend.utils.Constants.TOTAL_RATING;
  * Created by Mohammad Adil on 20-06-2017.
  */
 
-public class FetchCityData extends AsyncTask<Void,Void,Void> {
+public class FetchCityData{
     Context context;
     ArrayList<PostContents> myData;
     PostContents dataModel;
@@ -59,8 +59,9 @@ public class FetchCityData extends AsyncTask<Void,Void,Void> {
     DatabaseReference mDatabase;
     DatabaseReference cityRef;
     String userCity;
-    @Override
-    protected void onPreExecute() {
+
+
+    private void beReady(){
         isLandscape = context.getResources().getBoolean(R.bool.isLandscape);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         getUserCity();
@@ -73,20 +74,8 @@ public class FetchCityData extends AsyncTask<Void,Void,Void> {
         progressDialog.setMessage("Retrieving your locality information...");
         progressDialog.show();
     }
-
-    @Override
-    protected Void doInBackground(Void... voids) {
-        getData();
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-
-
-    }
-
-    private void getData() {
+    public void getData() {
+        beReady();
         myData = new ArrayList<>();
         cityRef.addValueEventListener(new ValueEventListener() {
             @Override

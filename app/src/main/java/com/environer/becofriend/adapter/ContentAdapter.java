@@ -1,9 +1,12 @@
 package com.environer.becofriend.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,7 +44,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.support.v7.widget.RecyclerView.*;
@@ -55,13 +62,22 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
 
     Context context;
     ArrayList<PostContents> myDatabase;
-    SimpleExoPlayer mExoPlayer;
+    public static SimpleExoPlayer mExoPlayer;
     DatabaseReference mDatabase;
     DatabaseReference currentDB;
+    boolean isTabletLand;
+
+    ImageView imageViewDtl,imageViewMapDtl;
+    CircleImageView mainUserImageDtl;
+    SimpleExoPlayerView exoPlayerViewDtl;
+    TextView problemDtl,addressDtl,ratingDtl,fullNameDtl;
+    private FloatingActionButton email_fab;
+
     public ContentAdapter(Context con, ArrayList<PostContents> data){
         myDatabase = data;
         context = con;
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        isTabletLand = context.getResources().getBoolean(R.bool.isTabletLandscape);
     }
 
     @Override
@@ -105,6 +121,8 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
     }
 
     private void populateVideoView(final MyViewHolder holder, final PostContents currentCon) {
+
+
         final VideoViewHolder videoViewHolder = (VideoViewHolder)holder;
         videoViewHolder.problemTv.setText(currentCon.getProblem());
         videoViewHolder.addressTv.setText(currentCon.getAddress());
@@ -115,16 +133,24 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
         videoViewHolder.imageCardView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                PostContents clicked = myDatabase.get(videoViewHolder.getAdapterPosition());
+                currentDB = mDatabase.child(CITY).child(clicked.getCity()).child(clicked.getKey());
                 if(mExoPlayer!=null){
                     mExoPlayer.stop();
                     mExoPlayer.release();
                     mExoPlayer = null;
                 }
-                LaunchDetailIntent(currentCon);
+
+                if(!isTabletLand)
+                    LaunchDetailIntent(videoViewHolder.getAdapterPosition());
+                else{
+                    bindViews();//It will bind the views which was previously on another activity
+                    getInfoAndPopluateViews(currentCon);
+                }
             }
         });
 
-        currentDB = mDatabase.child(CITY).child(currentCon.getCity()).child(currentCon.getKey());
+
 
         //Hide the rating bar if the content is rated by current user
         DetectRatingStatus(videoViewHolder.ratingBar);
@@ -134,6 +160,9 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
             @Override
             public void onRatingChanged(final RatingBar ratingBar, float v, boolean b) {
 
+
+                PostContents clickedContent = myDatabase.get(videoViewHolder.getAdapterPosition());
+                currentDB = mDatabase.child(CITY).child(clickedContent.getCity()).child(clickedContent.getKey());
 
                 currentDB.child(RATING).addChildEventListener(new ChildEventListener() {
                     @Override
@@ -177,6 +206,105 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
 
     }
 
+    public static SimpleExoPlayer returnInstance(){
+        return mExoPlayer;
+    }
+    private void bindViews(){
+        problemDtl = (TextView)((Activity)context).findViewById(R.id.textViewProblemDetail);
+        imageViewDtl = (ImageView)((Activity)context).findViewById(R.id.imageViewDetail);
+        exoPlayerViewDtl = (SimpleExoPlayerView)((Activity)context).findViewById(R.id.exoPlayerViewDetail);
+        addressDtl = (TextView) ((Activity)context).findViewById(R.id.textViewAddressDetail);
+        ratingDtl = (TextView)((Activity)context).findViewById(R.id.textViewRatingLabelDetail);
+        mainUserImageDtl = (CircleImageView)((Activity)context).findViewById(R.id.circularImgMainUser);
+        fullNameDtl = (TextView)((Activity)context).findViewById(R.id.textViewMainUDetail);
+        imageViewMapDtl = (ImageView)((Activity)context).findViewById(R.id.imageViewMapDetail);
+        email_fab = (FloatingActionButton)((Activity)context).findViewById(R.id.fabEmail);
+
+    }
+
+    private void getInfoAndPopluateViews(final PostContents currentCon) {
+        problemDtl.setText(currentCon.getProblem());
+        addressDtl.setText(currentCon.getAddress());
+        mDatabase.child(USERS).child(currentCon.getMainUser()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                fullNameDtl.setText(dataSnapshot.child(FULL_NAME).getValue().toString());
+                String imgUrl = dataSnapshot.child(MAINUSER_IMAGELINK).getValue().toString();
+                Picasso.with(context).load(imgUrl).error(R.drawable.error).into(mainUserImageDtl);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        currentDB.child(RATING).child(TOTAL_RATING).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ratingDtl.setText("Rating: " + dataSnapshot.getValue().toString() + " out of 5.0");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        imageViewMapDtl.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchMapIntent(currentCon.getLatitude(),currentCon.getLongitude());
+            }
+        });
+        final String content = currentCon.getDownnloadLink();
+        if(content.contains("IMG")) {
+            exoPlayerViewDtl.setVisibility(GONE);
+            Picasso.with(context).load(content).error(R.drawable.error).into(imageViewDtl);
+        }
+        else{
+            imageViewDtl.setVisibility(GONE);
+            exoPlayerViewDtl.setVisibility(VISIBLE);
+            playVideo(Uri.parse(content),exoPlayerViewDtl);
+
+        }
+        email_fab.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchEmailIntent(content,currentCon.getProblem(),currentCon.getAddress());
+            }
+        });
+
+    }
+    private void launchEmailIntent(String contentLink, String problem,String address) {
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","type_here@gmail.com",null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT,"Serious issue noticed by Environer.Inc");
+        emailIntent.putExtra(Intent.EXTRA_TEXT,MESSAGE+"\n" + PROBLEM  + ": " + problem + "\n"
+                + "Content link: " + contentLink + "\n" +
+                ADDRESS + " : " +
+                address + "\n");
+        context.startActivity(Intent.createChooser(emailIntent,"Send email..."));
+    }
+
+    private void launchMapIntent(String latitude,String longitude) {
+        if(mExoPlayer!=null){
+            mExoPlayer.release();
+            mExoPlayer.stop();
+            mExoPlayer = null;
+        }
+        double lat = Double.valueOf(latitude);
+        double longi = Double.valueOf(longitude);
+        String label = "BEcoFriend";
+        String uriBegin = "geo:" + lat + "," + longi;
+        String query = lat + "," + longi + "(" + label + ")";
+        String encodedQuery = Uri.encode(query);
+        String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+        Uri uri = Uri.parse(uriString);
+        Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+        context.startActivity(intent);
+
+    }
+
     private void playVideo(Uri uri,SimpleExoPlayerView mExoPlayerView) {
         if(mExoPlayer !=null){
             mExoPlayer.stop();
@@ -211,7 +339,14 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
         imageViewHolder.imageCardView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                LaunchDetailIntent(currentContent);
+                PostContents clicked = myDatabase.get(imageViewHolder.getAdapterPosition());
+                currentDB = mDatabase.child(CITY).child(clicked.getCity()).child(clicked.getKey());
+                if(!isTabletLand)
+                    LaunchDetailIntent(imageViewHolder.getAdapterPosition());
+                else{
+                    bindViews();//It will bind the views which was previously on another activity
+                    getInfoAndPopluateViews(currentContent);
+                }
 
             }
         });
@@ -223,6 +358,9 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
             public void onRatingChanged(final RatingBar ratingBar, float v, boolean b) {
 
 
+                //Update according to the clicked view
+                PostContents clickedContent = myDatabase.get(imageViewHolder.getAdapterPosition());
+                currentDB = mDatabase.child(CITY).child(clickedContent.getCity()).child(clickedContent.getKey());
                 currentDB.child(RATING).addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -284,13 +422,14 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
         String user = sharedPref.getString(USER_NAME,"SomeOne");
         return user;
     }
-    private void LaunchDetailIntent(final PostContents currentContent) {
+    private void LaunchDetailIntent(int clickedPos) {
+        PostContents current = myDatabase.get(clickedPos);
         final Intent intent = new Intent(context, DetailActivity.class);
-        intent.putExtra(PROBLEM,currentContent.getProblem());
-        intent.putExtra(ADDRESS,currentContent.getAddress());
-        intent.putExtra(LATITUDE,currentContent.getLatitude());
-        intent.putExtra(LONGITUDE,currentContent.getLongitude());
-        intent.putExtra(MAIN_USER,currentContent.getMainUser());
+        intent.putExtra(PROBLEM,current.getProblem());
+        intent.putExtra(ADDRESS,current.getAddress());
+        intent.putExtra(LATITUDE,current.getLatitude());
+        intent.putExtra(LONGITUDE,current.getLongitude());
+        intent.putExtra(MAIN_USER,current.getMainUser());
         currentDB.child(RATING).child(TOTAL_RATING).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -303,7 +442,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
 
             }
         });
-        String content = currentContent.getDownnloadLink();
+        String content = current.getDownnloadLink();
         if(content.contains("IMG"))
             intent.putExtra(POST_IMAGE,content);
         else

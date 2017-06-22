@@ -23,8 +23,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.environer.becofriend.adapter.ContentAdapter;
+import com.environer.becofriend.data.FetchAllData;
 import com.environer.becofriend.data.FetchCityData;
 import com.environer.becofriend.utils.Constants;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -92,8 +95,10 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference();
         menu_fab.setOnClickListener(this);
-        FetchCityData myCityData = new FetchCityData(this,recyclerView);
-        myCityData.execute();
+//        FetchCityData myCityData = new FetchCityData(this,recyclerView);
+//        myCityData.getData();
+        FetchAllData fetchAllData = new FetchAllData(this,recyclerView);
+        fetchAllData.getAllData();
 
     }
 
@@ -197,6 +202,28 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         }
         //How to retrieve the index of my location permission for grantResult in order to check it??
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SimpleExoPlayer  exo = ContentAdapter.returnInstance();
+        if(exo!=null){
+            exo.release();
+            exo .stop();
+            exo = null;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SimpleExoPlayer  exo = ContentAdapter.returnInstance();
+        if(exo!=null){
+            exo.release();
+            exo .stop();
+            exo = null;
+        }
     }
 
     @Override

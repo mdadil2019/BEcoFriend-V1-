@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.environer.becofriend.LoginActivity"
+    android:orientation="vertical"
+    android:background="@drawable/backr"
+    android:gravity="center"
+    android:weightSum="1">
+
+    <EditText
+        android:id="@+id/editTextEmailLog"
+        android:layout_width="341dp"
+        android:layout_height="wrap_content"
+        android:alpha="0.8"
+        android:background="@drawable/rounded_edittext"
+        android:ems="10"
+        android:hint="@string/emailHint"
+        android:inputType="textEmailAddress"
+        android:padding="@dimen/editTextPaddings"
+        android:textColorHint="@color/colorAccent"
+        android:textColor="@color/colorAccent"
+        android:drawableLeft="@drawable/ic_email_white_24px"
+        android:drawablePadding="@dimen/paddingwithIcon"
+        android:textSize="@dimen/tabletLoginTextSize"/>
+
+
+    <EditText
+        android:id="@+id/editTextPassLog"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/passboxTopMargin"
+        android:alpha="0.8"
+        android:background="@drawable/rounded_edittext"
+        android:drawableLeft="@drawable/ic_lock_outline_white_24px"
+        android:drawablePadding="@dimen/paddingwithIcon"
+        android:ems="10"
+        android:hint="@string/passHint"
+        android:inputType="textPassword"
+        android:padding="@dimen/editTextPaddings"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorAccent"
+        android:textSize="@dimen/tabletLoginTextSize"/>
+
+    <Button
+        android:id="@+id/signinBtn"
+        android:layout_width="172dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/passboxTopMargin"
+        android:background="@drawable/rounded_edittext"
+        android:text="@string/signInText"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/tabletLoginTextSize"
+        android:layout_weight="0.03" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/orText"
+        android:textSize="@dimen/tabletLoginTextSize"
+        android:textStyle="bold" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleSignInBtn"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.03">
+
+    </com.google.android.gms.common.SignInButton>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="2dp"
+        android:background="@android:color/white"
+        />
+
+    <TextView
+        android:id="@+id/textViewNewUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/newUserText"
+        android:textStyle="bold"
+        android:textSize="@dimen/tabletLoginTextSize"/>
+
+</LinearLayout>
