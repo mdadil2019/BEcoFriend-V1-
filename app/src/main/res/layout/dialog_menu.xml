@@ -13,6 +13,10 @@
         android:drawablePadding="@dimen/paddingwithIcon"
         android:text="@string/takeImage"
         android:textSize="@dimen/MenuItemsSize" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
 
     <TextView
         android:id="@+id/textViewTakeVideo"
@@ -22,6 +26,10 @@
         android:drawablePadding="@dimen/paddingwithIcon"
         android:text="@string/takeVideo"
         android:textSize="@dimen/MenuItemsSize" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
 
     <TextView
         android:id="@+id/textViewProfileMenu"
@@ -31,4 +39,8 @@
         android:drawablePadding="@dimen/paddingwithIcon"
         android:text="@string/profileSet"
         android:textSize="@dimen/MenuItemsSize" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
 </LinearLayout>

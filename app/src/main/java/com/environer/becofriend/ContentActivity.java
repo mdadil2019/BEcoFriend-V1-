@@ -1,6 +1,7 @@
 package com.environer.becofriend;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -32,8 +33,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -71,7 +75,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     private String address,coOrdinate;
     private boolean isImage;
     private ProgressDialog progressDialog;
-
+    public static Activity contentAct;
     DatabaseReference mDatabase;
     StorageReference mStorage;
     @BindView(R.id.fab_menu)FloatingActionButton menu_fab;
@@ -82,6 +86,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+        contentAct = this;
         ButterKnife.bind(this);
         progressDialog = new ProgressDialog(this);
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -121,11 +126,36 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
                 @Override
                 public void onClick(View view) {
                     menu_dialog.dismiss();
-                    startActivity(new Intent(ContentActivity.this,ProfileActivity.class));
-                    finish();
+                    getInfoAndStartIntent();
                 }
             });
         }
+    }
+
+    private void getInfoAndStartIntent() {
+        String[] info = getUserInfo();
+        final String userName = info[1];
+        final String city = info[0];
+
+        mDatabase.child(USERS).child(userName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String fullName = dataSnapshot.child(FULL_NAME).getValue().toString();
+                String imageLink = dataSnapshot.child(MAINUSER_IMAGELINK).getValue().toString();
+                Intent intent = new Intent(ContentActivity.this,ProfileActivity.class);
+                intent.putExtra(USER_NAME,userName);
+                intent.putExtra(CITY,city);
+                intent.putExtra(FULL_NAME,fullName);
+                intent.putExtra(MAINUSER_IMAGELINK,imageLink);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void takeVideo() {
@@ -291,6 +321,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         postDb.child(LATITUDE).setValue(latitude);
         postDb.child(LONGITUDE).setValue(longitude);
         postDb.child(ADDRESS).setValue(address);
+        postDb.child(RATING).child(TOTAL_RATING).setValue("5");
         if(isImage)
             postDb.child(POST_IMAGE).setValue(downloadLink);
         else

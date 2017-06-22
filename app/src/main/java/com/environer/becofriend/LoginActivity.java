@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.environer.becofriend.utils.Constants;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -57,6 +58,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser()!=null) {
+            startActivity(new Intent(this, ContentActivity.class));
+            finish();
+        }
         mDatabase = FirebaseDatabase.getInstance().getReference();
         ButterKnife.bind(this);
         progressDialog = new ProgressDialog(this);
@@ -114,7 +119,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             // Sign in success, update UI with the signed-in user's information
 //                            Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(LoginActivity.this,ProfileActivity.class));
+                            Intent intent = new Intent(LoginActivity.this,ProfileActivity.class) ;
+                            intent.putExtra("userName",user.getUid());
+                            startActivity(intent);
                             Toast.makeText(LoginActivity.this,"Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
                             finish();
 //                            updateUI(user);
@@ -168,24 +175,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     if(!userName.equals("") && !pass.equals("")) {
                         progressDialog.setMessage("Preparing for authentication...");
                         progressDialog.show();
-                        mDatabase.child("Users").child(userName).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (!dataSnapshot.exists()) {
-                                    createId(userName,pass);
-                                }
-                                else{
-                                    if(!created)
-                                        Toast.makeText(LoginActivity.this, "Username already exist, Please chose another", Toast.LENGTH_LONG).show();
-                                        progressDialog.dismiss();
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
+                        createId(userName,pass);
                     }else{
                         Toast.makeText(LoginActivity.this, "Please enter the credentials!", Toast.LENGTH_SHORT).show();
                     }
@@ -230,6 +220,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             progressDialog.dismiss();
                             startActivity(new Intent(LoginActivity.this,ContentActivity.class));
                             Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                            finish();
 
                         }
 

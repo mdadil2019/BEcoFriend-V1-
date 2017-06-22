@@ -3,7 +3,6 @@ package com.environer.becofriend;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +19,6 @@ import com.environer.becofriend.utils.Constants;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,6 +33,10 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.environer.becofriend.utils.Constants.CITY;
+import static com.environer.becofriend.utils.Constants.FULL_NAME;
+import static com.environer.becofriend.utils.Constants.MAINUSER_IMAGELINK;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -69,6 +70,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profileImageView.setOnClickListener(this);
         profileSetBtn.setOnClickListener(this);
         selectCity.setOnClickListener(this);
+
+        autoUpdateProfile();
+    }
+
+    private void autoUpdateProfile() {
+        if(getIntent().getStringExtra(MAINUSER_IMAGELINK)!=null){
+            Picasso.with(this).load(getIntent().getStringExtra(MAINUSER_IMAGELINK)).error(R.drawable.error).into(profileImageView);
+            selectCity.setText(getIntent().getStringExtra(CITY));
+            profileName.setText(getIntent().getStringExtra(FULL_NAME));
+        }
     }
 
     public void addUserInfo(String imageLink){
@@ -76,7 +87,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             String city = selectedCity.replace(',',' ');//Since firebase wouldn't take keys with special characters
         String userName =  getIntent().getStringExtra("userName");
         mDatabase.child(Constants.USERS).child(userName).child(Constants.FULL_NAME).setValue(profileName.getText().toString());
-        mDatabase.child(Constants.USERS).child(userName).child(Constants.IMAGE_LINK).setValue(imageLink);
+        mDatabase.child(Constants.USERS).child(userName).child(MAINUSER_IMAGELINK).setValue(imageLink);
         mDatabase.child(Constants.USERS).child(userName).child(Constants.CITY).setValue(city);
         saveData(userName,city);
     }
@@ -153,6 +164,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             if(firebaseAuth.getCurrentUser()!=null){
                 firebaseAuth.signOut();
+                ContentActivity.contentAct.finish();
+                startActivity(new Intent(ProfileActivity.this,LoginActivity.class));
+                finish();
             }
         }
         else if(view == uploadTv || view == profileImageView){

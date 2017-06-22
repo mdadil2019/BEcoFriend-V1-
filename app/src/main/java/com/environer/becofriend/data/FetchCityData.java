@@ -1,14 +1,18 @@
 package com.environer.becofriend.data;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
+import com.environer.becofriend.R;
 import com.environer.becofriend.adapter.ContentAdapter;
 import com.environer.becofriend.model.PostContents;
 import com.environer.becofriend.utils.Constants;
@@ -30,7 +34,9 @@ import static com.environer.becofriend.utils.Constants.MAIN_USER;
 import static com.environer.becofriend.utils.Constants.POST_IMAGE;
 import static com.environer.becofriend.utils.Constants.POST_VIDEO;
 import static com.environer.becofriend.utils.Constants.PROBLEM;
+import static com.environer.becofriend.utils.Constants.RATING;
 import static com.environer.becofriend.utils.Constants.SHARED_PREFERENCES;
+import static com.environer.becofriend.utils.Constants.TOTAL_RATING;
 
 /**
  * Created by Mohammad Adil on 20-06-2017.
@@ -42,6 +48,9 @@ public class FetchCityData extends AsyncTask<Void,Void,Void> {
     PostContents dataModel;
     RecyclerView recyclerView;
     ProgressDialog progressDialog;
+    private int count;
+    private long totalCount;
+    boolean isLandscape;
 
     public FetchCityData(Context c, RecyclerView rView){
         context = c;
@@ -52,6 +61,7 @@ public class FetchCityData extends AsyncTask<Void,Void,Void> {
     String userCity;
     @Override
     protected void onPreExecute() {
+        isLandscape = context.getResources().getBoolean(R.bool.isLandscape);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         getUserCity();
         cityRef = mDatabase.child(CITY).child(userCity);
@@ -122,9 +132,14 @@ public class FetchCityData extends AsyncTask<Void,Void,Void> {
         });
     }
 
-    private void storeDataInArray(DataSnapshot dataSnapshot) {
+    private void storeDataInArray(final DataSnapshot dataSnapshot) {
         dataModel = new PostContents();
-        if(dataSnapshot.getChildrenCount()==6) {
+        dataModel.setKey(dataSnapshot.getKey());
+        dataModel.setCity(userCity);
+        //Since onChildAdded is called on (a)when we add the child of that parent(a) and the problem is ==> by adding only first child to
+        // (a)parent(newly created), the onChildadded is called and we have to store all the information of that parent(a), so first check that if there
+        // is 7 child or not else use a new database reference and setOnChildAdded on the newly added content
+        if(dataSnapshot.getChildrenCount()==7) {
             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                 if (ds.getKey().equals(ADDRESS))
                     dataModel.setAddress(ds.getValue().toString());
@@ -138,6 +153,26 @@ public class FetchCityData extends AsyncTask<Void,Void,Void> {
                     dataModel.setDownnloadLink(ds.getValue().toString());
                 else if (ds.getKey().equals(PROBLEM))
                     dataModel.setProblem(ds.getValue().toString());
+                else if(ds.getKey().equals(RATING)){
+                    dataModel.setRating(ds.child(TOTAL_RATING).getValue().toString());
+
+                }
+                totalCount++;
+                if(totalCount == 7){
+                    myData.add(dataModel);
+
+                    ContentAdapter adapter = new ContentAdapter(context,myData);
+                    if(!isLandscape) {
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                        recyclerView.setLayoutManager(linearLayoutManager);
+                    }
+                    else{
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,numberofColumn());
+                        recyclerView.setLayoutManager(gridLayoutManager);
+                    }
+                    recyclerView.setAdapter(adapter);
+                    totalCount = 0;
+                }
 
             }
         }
@@ -158,6 +193,26 @@ public class FetchCityData extends AsyncTask<Void,Void,Void> {
                         dataModel.setDownnloadLink(ds.getValue().toString());
                     else if (ds.getKey().equals(PROBLEM))
                         dataModel.setProblem(ds.getValue().toString());
+                    else if(ds.getKey().equals(RATING)){
+                        dataModel.setRating(ds.child(TOTAL_RATING).getValue().toString());
+                    }
+                    count++;
+                    if(count == 7){
+                        myData.add(dataModel);
+
+                        ContentAdapter adapter = new ContentAdapter(context,myData);
+                        if(!isLandscape) {
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                            recyclerView.setLayoutManager(linearLayoutManager);
+                        }
+                        else{
+                            GridLayoutManager gridLayoutManager = new GridLayoutManager(context,numberofColumn());
+                            recyclerView.setLayoutManager(gridLayoutManager);
+                        }
+                        recyclerView.setAdapter(adapter);
+                        count=0;
+                    }
+
                 }
 
                 @Override
@@ -181,12 +236,17 @@ public class FetchCityData extends AsyncTask<Void,Void,Void> {
                 }
             });
         }
-        myData.add(dataModel);
 
-        ContentAdapter adapter = new ContentAdapter(context,myData);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
+    }
+
+    private int numberofColumn(){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int widthDivider = 400;
+        int width = displayMetrics.widthPixels;
+        int nColumns = width / widthDivider;
+        if(nColumns<2)return 2;
+        return nColumns;
     }
 
     void getUserCity(){

@@ -5,6 +5,24 @@ package com.environer.becofriend.model;
  */
 
 public class PostContents {
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    String city;
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    String key;
     public String getDownnloadLink() {
         return downnloadLink;
     }

@@ -55,6 +55,9 @@
         android:padding="@dimen/editTextPaddings"
         android:layout_marginTop="@dimen/passboxTopMargin"
 />
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
     <Button
         android:id="@+id/logOutBtn"
         android:layout_width="wrap_content"
