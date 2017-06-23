@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +21,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.environer.becofriend.ContentActivity;
 import com.environer.becofriend.DetailActivity;
+import com.environer.becofriend.ProfileActivity;
 import com.environer.becofriend.R;
 import com.environer.becofriend.model.PostContents;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -434,7 +440,13 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 intent.putExtra(RATING,dataSnapshot.getValue().toString());
-                context.startActivity(intent);
+                if(Build.VERSION.SDK_INT>= 21)
+                {
+                    Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((Activity) context).toBundle();
+                    context.startActivity(intent,bundle);
+                }
+                else
+                    context.startActivity(intent);
             }
 
             @Override
@@ -447,11 +459,9 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
             intent.putExtra(POST_IMAGE,content);
         else
             intent.putExtra(POST_VIDEO,content);
-
-
-
-
     }
+
+
 
     @Override
     public int getItemViewType(int position) {

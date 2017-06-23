@@ -1,8 +1,10 @@
 package com.environer.becofriend;
 
+import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -195,7 +197,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     progressDialog.dismiss();
                     Intent i = new Intent(LoginActivity.this,ProfileActivity.class);
                     i.putExtra("userName",userName);
-                    startActivity(i);
+                        startActivity(i);
                     Toast.makeText(LoginActivity.this, "Welcome " + userName, Toast.LENGTH_SHORT).show();
                     finish();
                 }

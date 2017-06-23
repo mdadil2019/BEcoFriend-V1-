@@ -1,10 +1,12 @@
 package com.environer.becofriend;
 
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -138,7 +140,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         if(getIntent().getExtras()!=null)
                             addUserInfo(profileImageLink);
                         progressDialog.dismiss();
-                        startActivity(new Intent(ProfileActivity.this,ContentActivity.class));
+                        //Setting animation
+                        if(Build.VERSION.SDK_INT>= 21)
+                        {
+                            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(ProfileActivity.this).toBundle();
+                            startActivity(new Intent(ProfileActivity.this,ContentActivity.class),bundle);
+                        }
+                        else
+                            startActivity(new Intent(ProfileActivity.this,ContentActivity.class));
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

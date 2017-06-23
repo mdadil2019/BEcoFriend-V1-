@@ -3,9 +3,12 @@ package com.environer.becofriend;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -89,6 +92,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
 
