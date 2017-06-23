@@ -3,22 +3,22 @@
     <dimen name="editTextPaddings">20dp</dimen>
     <dimen name="passboxTopMargin">5dp</dimen>
     <dimen name="paddingwithIcon">10dp</dimen>
-    <dimen name="signUpTextSize">15dp</dimen>
+    <dimen name="signUpTextSize">15sp</dimen>
     <dimen name="llPadding">20dp</dimen>
     <dimen name="problemTextSize">15sp</dimen>
     <dimen name="problemMargin">10dp</dimen>
     <dimen name="searchViewSize">45dp</dimen>
-    <dimen name="MenuItemsSize">20dp</dimen>
+    <dimen name="MenuItemsSize">20sp</dimen>
     <dimen name="locationPickUpSize">18sp</dimen>
     <dimen name="postBtnTopMargin">10dp</dimen>
-    <dimen name="sizeAddress">15dp</dimen>
+    <dimen name="sizeAddress">15sp</dimen>
     <dimen name="selectCitySize">18sp</dimen>
     <dimen name="detailProblemSize">20sp</dimen>
     <dimen name="detailTextMargin">20dp</dimen>
     <dimen name="ratingLableSize">18sp</dimen>
     <dimen name="fullNameSize">20sp</dimen>
     <dimen name="tabletLoginTextSize">25sp</dimen>
-    <dimen name="toolbarTitleSize">25dp</dimen>
+    <dimen name="toolbarTitleSize">25sp</dimen>
     <dimen name="toolbarHeight">50dp</dimen>
 
     <!--

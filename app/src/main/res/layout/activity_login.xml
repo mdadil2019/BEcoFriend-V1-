@@ -23,6 +23,7 @@
         android:textColorHint="@color/colorAccent"
         android:textColor="@color/colorAccent"
         android:drawableLeft="@drawable/ic_email_white_24px"
+        android:drawableStart="@drawable/ic_email_white_24px"
         android:drawablePadding="@dimen/paddingwithIcon"/>
 
 
@@ -41,6 +42,7 @@
         android:textColor="@color/colorAccent"
         android:textColorHint="@color/colorAccent"
         android:drawableLeft="@drawable/ic_lock_outline_white_24px"
+        android:drawableStart="@drawable/ic_lock_outline_white_24px"
         android:drawablePadding="@dimen/paddingwithIcon"/>
 
     <Button

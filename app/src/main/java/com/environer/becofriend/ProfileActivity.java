@@ -136,6 +136,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
+                        //noinspection VisibleForTests
                         profileImageLink = String.valueOf(taskSnapshot.getDownloadUrl());
                         if(getIntent().getExtras()!=null)
                             addUserInfo(profileImageLink);
@@ -164,7 +165,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.USER_NAME,userName);
         editor.putString(Constants.CITY,city);
-        editor.commit();
+        editor.apply();
     }
 
     @Override

@@ -47,4 +47,6 @@
     </string-array>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="mapIconDescription">Map of current post</string>
+    <string name="imageViewPostDescription">Image of the issue</string>
 </resources>

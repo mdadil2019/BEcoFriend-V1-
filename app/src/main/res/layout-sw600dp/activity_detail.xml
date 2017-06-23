@@ -37,6 +37,7 @@
                 android:layout_height="450dp">
 
                 <ImageView
+                    android:contentDescription="@string/imageViewPostDescription"
                     android:id="@+id/imageViewDetail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -46,7 +47,7 @@
                     android:id="@+id/exoPlayerViewDetail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone"></com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+                    android:visibility="gone"/>
             </FrameLayout>
 
             <TextView
@@ -60,6 +61,7 @@
                 android:textStyle="italic" />
 
             <ImageView
+                android:contentDescription="@string/mapIconDescription"
                 android:id="@+id/imageViewMapDetail"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

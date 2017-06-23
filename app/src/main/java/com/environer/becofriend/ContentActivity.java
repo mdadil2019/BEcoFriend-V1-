@@ -353,7 +353,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
             ref.putFile(Uri.fromFile(fileToUpload)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String downloadLink = String.valueOf(taskSnapshot.getDownloadUrl());
+                    @SuppressWarnings("VisibleForTests") String downloadLink = String.valueOf(taskSnapshot.getDownloadUrl());
                     storeData(problem,downloadLink,progressDialog);
                 }
             }).addOnFailureListener(new OnFailureListener() {
