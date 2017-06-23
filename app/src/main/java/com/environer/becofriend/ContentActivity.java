@@ -244,7 +244,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
             FetchAllData.progressDialog.dismiss();
         ProgressDialog pgdlcity = FetchCityData.progressDialog;
         if(pgdlcity!=null && pgdlcity.isShowing())
-            pgdl.dismiss();
+            pgdlcity.dismiss();
         SimpleExoPlayer  exo = ContentAdapter.returnInstance();
         if(exo!=null){
             exo.release();
