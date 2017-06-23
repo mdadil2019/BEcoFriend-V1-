@@ -85,7 +85,7 @@ public class FetchCityData {
                     Toast.makeText(context, "There is no any post in your area", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    ContentActivity.localPostBtn1.setChecked(true);
+//                    ContentActivity.localPostBtn1.setChecked(true);
                 }
                 if(progressDialog.isShowing())
                     progressDialog.dismiss();

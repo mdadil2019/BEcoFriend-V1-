@@ -34,6 +34,7 @@
     <string name="logOutDescription">Logout Button</string>
     <string name="localPostText">Local posts</string>
     <string name="allPostText">All posts</string>
+    <string name="quote">Sooner or later, we will have to recognise that the Earth has rights, too, to live without pollution. What mankind must know is that human beings cannot live without Mother Earth, but the planet can live without humans.</string>
 
     <string-array name="cities">
         <item>Select City</item>
@@ -44,4 +45,6 @@
         <item>Ahamdabad</item>
         <item>Other</item>
     </string-array>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

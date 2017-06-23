@@ -20,4 +20,10 @@
     <dimen name="tabletLoginTextSize">25sp</dimen>
     <dimen name="toolbarTitleSize">25dp</dimen>
     <dimen name="toolbarHeight">50dp</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">8dp</dimen>
 </resources>
