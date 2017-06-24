@@ -1,13 +1,18 @@
 package com.environer.becofriend;
 
+import android.*;
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,8 +42,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.environer.becofriend.utils.Constants.CITY;
+import static com.environer.becofriend.utils.Constants.FINE_LOCATION;
 import static com.environer.becofriend.utils.Constants.FULL_NAME;
 import static com.environer.becofriend.utils.Constants.MAINUSER_IMAGELINK;
+import static com.environer.becofriend.utils.Constants.WRITE_PERMISSION;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -108,6 +115,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             Picasso.with(this).load(data.getData()).noPlaceholder().into(profileImageView, new Callback() {
                 @Override
                 public void onSuccess() {
+
                    imagePath = data.getData();
                 }
 
@@ -122,8 +130,27 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Place place = PlacePicker.getPlace(this,data);
                 selectedCity = String.valueOf(place.getAddress());
                 selectCity.setText(selectedCity);
-                Toast.makeText(this, "Make sure you have selected city,not current location", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Make sure you have selected your city by searching from search box", Toast.LENGTH_LONG).show();
             }
+        }
+    }
+    private void getDataAccessPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.EXTERNAL_READ_REQUEST);
+        }
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
+        }
+    }
+
+
+
+    private void getLocationPermission(){
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},Constants.LOCATION);
+        }
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},FINE_LOCATION);
         }
     }
 
@@ -180,9 +207,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
         else if(view == uploadTv || view == profileImageView){
+            getDataAccessPermission();
             pickImage();
         }
         else if(view == selectCity){
+            getLocationPermission();
             PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
             try {
                 startActivityForResult(builder.build(this),CITY_SELECT_REQUEST);
@@ -197,9 +226,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 String pName = profileName.getText().toString();
                 if(pName!=null && !pName.equals("")){
                         if(imagePath!=null && !imagePath.equals("")) {
-//                            if(!spinner.getSelectedItem().toString().equals("Select City"))
-//                                uploadImageToFbStorage(imagePath);
-
                             if(!selectedCity.equals("Select City")&&!selectedCity.equals("")){
                                 //call uploadImageToFbStorage
                                 uploadImageToFbStorage(imagePath);

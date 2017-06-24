@@ -25,5 +25,10 @@ public final class Constants {
     public static final String MESSAGE = "Hello \nThis message is from Environer.Inc, an organization that cares about ecosystem.\n" +
                                             "The place which is mentioned below has very bad impact on society so please take action regarding this.\n" +
                                             "\n";
-    public static final int TASK_LOADER_ID = 22;
+    public static final int EXTERNAL_READ_REQUEST = 2;
+    public static final int WRITE_PERMISSION = 3;
+    public static final int LOCATION = 4;
+    public static final int FINE_LOCATION = 5;
+    public static final int CAMERA_REQUEST = 6;
+
 }

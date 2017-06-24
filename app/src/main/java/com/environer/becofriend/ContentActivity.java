@@ -229,8 +229,9 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == CAMERA_PERMISSION && grantResults[0] == RESULT_CANCELED){
+        if(requestCode == CAMERA_PERMISSION && grantResults[0] == PackageManager.PERMISSION_DENIED){
             Toast.makeText(this,"You can't post the images!!. It requires permission",Toast.LENGTH_LONG).show();
+            finish();
         }
         //How to retrieve the index of my location permission for grantResult in order to check it??
 
@@ -409,9 +410,16 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    private void getCameraPermission(){
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.CAMERA},Constants.CAMERA_REQUEST);
+        }
+    }
+
     private void takeImage() {
         //Be modular
         //Launch Camera Intent
+        getCameraPermission();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         contentDirectory = new File(Environment.getExternalStorageDirectory(), CONTENT_DIRECTORY_NAME);

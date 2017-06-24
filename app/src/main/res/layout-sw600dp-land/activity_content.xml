@@ -111,9 +111,10 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="260dp">
+                    android:layout_height="300dp">
 
                     <ImageView
+                        android:contentDescription="@string/imageViewPostDescription"
                         android:id="@+id/imageViewDetail"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -123,15 +124,16 @@
                         android:id="@+id/exoPlayerViewDetail"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="gone"></com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+                        android:visibility="gone"/>
                 </FrameLayout>
 
                 <TextView
+                    android:contentDescription="@string/problem"
                     android:id="@+id/textViewProblemDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/detailTextMargin"
-                    android:text="@string/problem"
+                    tools:text="@string/problem"
                     android:textAlignment="center"
                     android:textSize="@dimen/detailProblemSize"
                     android:textStyle="italic" />
@@ -146,7 +148,7 @@
                     android:id="@+id/textViewAddressDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/address"
+                    tools:text="@string/address"
                     android:textAlignment="center"
                     android:textSize="@dimen/sizeAddress" />
 
@@ -155,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/detailTextMargin"
-                    android:text="@string/ratingLabel"
+                    tools:text="@string/ratingLabel"
                     android:textAlignment="center"
                     android:textSize="@dimen/ratingLableSize" />
 
@@ -176,7 +178,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/fullNameDetail"
+                        tools:text="@string/fullNameDetail"
                         android:textSize="@dimen/fullNameSize" />
                 </LinearLayout>
 
