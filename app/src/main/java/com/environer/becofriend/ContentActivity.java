@@ -410,8 +410,12 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         String[] user_info = getUserInfo();//retrieve city and username from Shared preferences
         String city = user_info[0];
         String username = user_info[1];
-        String latitude = coOrdinate.substring(coOrdinate.indexOf('(')+1,coOrdinate.indexOf(',')-1);
-        String longitude = coOrdinate.substring(coOrdinate.indexOf(',')+1,coOrdinate.length()-1);
+        String latitude=null;
+        String longitude=null;
+        if(coOrdinate!=null && !coOrdinate.equals("")) {
+             latitude = coOrdinate.substring(coOrdinate.indexOf('(') + 1, coOrdinate.indexOf(',') - 1);
+            longitude = coOrdinate.substring(coOrdinate.indexOf(',') + 1, coOrdinate.length() - 1);
+        }
         DatabaseReference cityDb = mDatabase.child(CITY).child(city);
 
         DatabaseReference postDb = cityDb.push();
