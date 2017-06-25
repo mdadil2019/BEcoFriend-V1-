@@ -342,7 +342,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
                 //Upload the image to firebase databse
                 //Upload the database of this post
                 String problem = problemEt.getText().toString();
-                if(problem!=null) {
+                if(problem!=null && !problem.equals("")) {
                     if(address!=null && !address.equals("")){
                         infoDialog.dismiss();
                         UploadAllInfo(problem);

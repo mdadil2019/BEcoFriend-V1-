@@ -66,4 +66,7 @@
     <string name="ratingText">Rating:</string>
     <string name="outOf5Text">out of 5</string>
     <string name="widgetNotice">Create account and set profile to use the widget</string>
+    <string name="reportedByLabel">Reported by:</string>
+    <string name="colon">:</string>
+    <string name="totalChild">No of issue in your area:</string>
 </resources>
