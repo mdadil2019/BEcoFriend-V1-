@@ -174,7 +174,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     //Show status with spinning bar
                     //If not exist then register it
                     if(!userName.equals("") && !pass.equals("")) {
-                        progressDialog.setMessage("Preparing for authentication...");
+                        progressDialog.setMessage(getString(R.string.preparingForAuth));
                         progressDialog.show();
                         createId(userName,pass);
                     }else{
@@ -211,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void signInWithEmail(String email, String password) {
-        progressDialog.setMessage("Please wait...");
+        progressDialog.setMessage(getString(R.string.pleaseWait));
         progressDialog.show();
         mAuth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

@@ -89,8 +89,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private void autoUpdateProfile() {
         if(getIntent().getStringExtra(MAINUSER_IMAGELINK)!=null){
             Picasso.with(this).load(getIntent().getStringExtra(MAINUSER_IMAGELINK)).error(R.drawable.error).into(profileImageView);
+            imagePath = Uri.parse(getIntent().getStringExtra(MAINUSER_IMAGELINK));
+
             selectCity.setText(getIntent().getStringExtra(CITY));
+            selectedCity = getIntent().getStringExtra(CITY);
+
             profileName.setText(getIntent().getStringExtra(FULL_NAME));
+
         }
     }
 
@@ -158,43 +163,60 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void uploadImageToFbStorage(Uri data) {
-        progressDialog.setMessage("Uploading your details...");
+        progressDialog.setMessage(getString(R.string.uploadingDetailsText));
         progressDialog.show();
-        StorageReference imageRef = mStorageRef.child(Constants.PROFILE_IMAGES).child(String.valueOf(data));
-        imageRef.putFile(data)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        if(ContentActivity.contentAct!=null)
+            ContentActivity.contentAct.finish();
+        String link = data.toString();
+        if (link.contains(getString(R.string.linkText))) {
+            if (getIntent().getExtras() != null)
+                addUserInfo(link);
+            //Store profile status
+            setProfileStatus();
 
-                        //noinspection VisibleForTests
-                        profileImageLink = String.valueOf(taskSnapshot.getDownloadUrl());
-                        if(getIntent().getExtras()!=null)
-                            addUserInfo(profileImageLink);
-                        progressDialog.dismiss();
+            //Setting animation
+            if (Build.VERSION.SDK_INT >= 21) {
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(ProfileActivity.this).toBundle();
+                startActivity(new Intent(ProfileActivity.this, ContentActivity.class), bundle);
+            } else
+                startActivity(new Intent(ProfileActivity.this, ContentActivity.class));
+            finish();
 
-                        //Store profile status
-                        setProfileStatus();
-                        //Setting animation
-                        if(Build.VERSION.SDK_INT>= 21)
-                        {
-                            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(ProfileActivity.this).toBundle();
-                            startActivity(new Intent(ProfileActivity.this,ContentActivity.class),bundle);
+        } else {
+            StorageReference imageRef = mStorageRef.child(Constants.PROFILE_IMAGES).child(String.valueOf(data));
+            imageRef.putFile(data)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            //noinspection VisibleForTests
+                            profileImageLink = String.valueOf(taskSnapshot.getDownloadUrl());
+                            if (getIntent().getExtras() != null)
+                                addUserInfo(profileImageLink);
+                            progressDialog.dismiss();
+
+                            //Store profile status
+                            setProfileStatus();
+                            //Setting animation
+                            if (Build.VERSION.SDK_INT >= 21) {
+                                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(ProfileActivity.this).toBundle();
+                                startActivity(new Intent(ProfileActivity.this, ContentActivity.class), bundle);
+                            } else
+                                startActivity(new Intent(ProfileActivity.this, ContentActivity.class));
+                            finish();
                         }
-                        else
-                            startActivity(new Intent(ProfileActivity.this,ContentActivity.class));
-                        finish();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
-                Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void saveData(String userName,String city) {
-        SharedPreferences sharedPreferences = getSharedPreferences("Shrd",Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.USER_NAME,userName);
         editor.putString(Constants.CITY,city);

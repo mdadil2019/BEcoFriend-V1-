@@ -69,4 +69,21 @@
     <string name="reportedByLabel">Reported by:</string>
     <string name="colon">:</string>
     <string name="totalChild">No of issue in your area:</string>
+    <string name="linkText">firebase</string>
+    <string name="pleaseWait">Please wait...</string>
+    <string name="retrivingDataText">Retrieving Details...</string>
+    <string name="mailToText">mailto</string>
+    <string name="senderemail">type_here@gmail.com</string>
+    <string name="seriousIssueText">Serious issue noticed by Environer.Inc</string>
+    <string name="contentLink">Content link:</string>
+    <string name="emailChooser">Send email...</string>
+    <string name="geo">geo:</string>
+    <string name="comma">,</string>
+    <string name="openBracket">(</string>
+    <string name="closeBracket">)</string>
+    <string name="query">\?q=</string>
+    <string name="encodedQuery"><![CDATA[&z=16]]></string>
+    <string name="preparingForAuth">Preparing for authentication...</string>
+    <string name="uploadingDetailsText">Uploading your details...</string>
+    <string name="retrivingLocalData">Retrieving your locality information...</string>
 </resources>

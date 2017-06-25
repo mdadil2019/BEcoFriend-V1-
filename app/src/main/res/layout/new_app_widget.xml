@@ -26,19 +26,6 @@
         android:textSize="@dimen/widget_textSize" />
 
     <TextView
-        android:id="@+id/ratingText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/widgetLayoutMargin"
-        android:textSize="@dimen/widget_textSize"/>
-    <TextView
-        android:id="@+id/reportedBy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/widgetLayoutMargin"
-        android:textSize="@dimen/widget_textSize"/>
-
-    <TextView
         android:id="@+id/totalChildrenText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -72,7 +72,7 @@ public class FetchCityData {
             return;
         }
         progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Retrieving your locality information...");
+        progressDialog.setMessage(context.getString(R.string.retrivingLocalData));
         progressDialog.show();
     }
     public void getData() {

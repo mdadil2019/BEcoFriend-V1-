@@ -59,7 +59,7 @@ public class FetchAllData {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         allData = new ArrayList<>();
         progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Retrieving world data... ");
+        progressDialog.setMessage(context.getString(R.string.retrivingDataText));
         progressDialog.show();
 
     }

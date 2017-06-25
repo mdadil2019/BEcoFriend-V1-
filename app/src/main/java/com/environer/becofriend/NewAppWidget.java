@@ -76,13 +76,13 @@ public class NewAppWidget extends AppWidgetProvider {
                             else if(d.getKey().equals(MAIN_USER))
                             {
                                 contents.setMainUser(d.getValue().toString());
-                                views.setTextViewText(R.id.reportedBy,context.getString(R.string.reportedByLabel) + contents.getMainUser());
+//                                views.setTextViewText(R.id.reportedBy,context.getString(R.string.reportedByLabel) + contents.getMainUser());
                                 count++;
                             }
                             else if(d.getKey().equals(RATING))
                             {
                                 contents.setRating(d.getValue().toString());
-                                views.setTextViewText(R.id.ratingText, contents.getRating());
+//                                views.setTextViewText(R.id.ratingText, contents.getRating());
                                 count++;
 
                             }

@@ -99,11 +99,11 @@ public class DetailActivity extends AppCompatActivity {
     private void launchMapIntent() {
         double lat = Double.valueOf(latitude);
         double longi = Double.valueOf(longitude);
-        String label = "BEcoFriend";
-        String uriBegin = "geo:" + lat + "," + longi;
-        String query = lat + "," + longi + "(" + label + ")";
+        String label = getString(R.string.app_name);
+        String uriBegin = getString(R.string.geo) + lat + getString(R.string.comma) + longi;
+        String query = lat + getString(R.string.comma) + longi + getString(R.string.openBracket) + label + getString(R.string.closeBracket);
         String encodedQuery = Uri.encode(query);
-        String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+        String uriString = uriBegin + getString(R.string.query) + encodedQuery + getString(R.string.encodedQuery);
         Uri uri = Uri.parse(uriString);
         Intent intent = new Intent(Intent.ACTION_VIEW,uri);
         startActivity(intent);
@@ -117,18 +117,18 @@ public class DetailActivity extends AppCompatActivity {
         else
             contentLink = videoLink;
 
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","type_here@gmail.com",null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT,"Serious issue noticed by Environer.Inc");
-        emailIntent.putExtra(Intent.EXTRA_TEXT,MESSAGE+"\n" + PROBLEM  + ": " + problem + "\n"
-                + "Content link: " + contentLink + "\n" +
-                         ADDRESS + " : " +
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(getString(R.string.mailToText),getString(R.string.senderemail),null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.seriousIssueText));
+        emailIntent.putExtra(Intent.EXTRA_TEXT,MESSAGE+"\n" + PROBLEM  + getString(R.string.colon) + problem + "\n"
+                + getString(R.string.contentLink) + contentLink + "\n" +
+                         ADDRESS + getString(R.string.colon) +
                         address + "\n"+
-                "Reported by: " + mainUserFullName);
-        startActivity(Intent.createChooser(emailIntent,"Send email..."));
+                getString(R.string.reportedByLabel) + mainUserFullName);
+        startActivity(Intent.createChooser(emailIntent,getString(R.string.emailChooser)));
     }
 
     private void checkIncomingData() {
-        progressDialog.setMessage("Retrieving Details...");
+        progressDialog.setMessage(getString(R.string.retrivingDataText));
         progressDialog.show();
         if(getIntent().getExtras()!=null){
             problem = getIntent().getStringExtra(PROBLEM);

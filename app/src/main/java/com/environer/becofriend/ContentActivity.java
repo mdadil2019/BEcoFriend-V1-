@@ -205,6 +205,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
                 String imageLink = dataSnapshot.child(MAINUSER_IMAGELINK).getValue().toString();
                 Intent intent = new Intent(ContentActivity.this,ProfileActivity.class);
                 intent.putExtra(USER_NAME,userName);
+                intent.putExtra("userName",userName);
                 intent.putExtra(CITY,city);
                 intent.putExtra(FULL_NAME,fullName);
                 intent.putExtra(MAINUSER_IMAGELINK,imageLink);
@@ -360,7 +361,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private void UploadAllInfo(final String problem) {
-        progressDialog.setMessage("Please wait...");
+        progressDialog.setMessage(getString(R.string.pleaseWait));
         progressDialog.show();
 
         StorageReference ref;
