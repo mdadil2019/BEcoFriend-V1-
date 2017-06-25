@@ -74,7 +74,7 @@ public class FetchAllData {
                 if(dataSnapshot.exists())
                     getCityData(dataSnapshot);
                 else
-                    Toast.makeText(context, "No any posts are available", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.noPostsText), Toast.LENGTH_SHORT).show();
                 if(progressDialog.isShowing())
                     progressDialog.dismiss();
 

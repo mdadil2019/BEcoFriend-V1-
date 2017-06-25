@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:contentDescription="@string/imageViewPostDescription"
             android:id="@+id/imageViewContent"
             android:layout_width="match_parent"
             android:layout_height="260dp"
@@ -36,6 +37,7 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:contentDescription="@string/mapIconDescription"
                 android:id="@+id/imageViewMapImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

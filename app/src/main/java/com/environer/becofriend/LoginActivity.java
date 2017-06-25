@@ -1,15 +1,9 @@
 package com.environer.becofriend;
 
-import android.*;
-import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.environer.becofriend.utils.Constants;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -34,16 +27,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.attr.data;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
 
@@ -132,13 +120,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Intent intent = new Intent(LoginActivity.this,ProfileActivity.class) ;
                             intent.putExtra("userName",user.getUid());
                             startActivity(intent);
-                            Toast.makeText(LoginActivity.this,"Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this,getString(R.string.welcomeText) + user.getDisplayName(), Toast.LENGTH_SHORT).show();
                             finish();
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
 //                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, getString(R.string.authenticationFailedMessage),
                                     Toast.LENGTH_SHORT).show();
 //                            updateUI(null);
                         }
@@ -163,6 +151,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             String password = passwordEditText.getText().toString();
             if(!email.equals("") && !password.equals(""))
                 signInWithEmail(email,password);
+            else{
+                Toast.makeText(this, getString(R.string.credentialsInputHandle), Toast.LENGTH_SHORT).show();
+            }
         }
         else if(view == newUserView){
             Dialog dialog = new Dialog(this);
@@ -187,7 +178,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         progressDialog.show();
                         createId(userName,pass);
                     }else{
-                        Toast.makeText(LoginActivity.this, "Please enter the credentials!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, getString(R.string.credentialsInputHandle), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -206,7 +197,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     Intent i = new Intent(LoginActivity.this,ProfileActivity.class);
                     i.putExtra("userName",userName);
                         startActivity(i);
-                    Toast.makeText(LoginActivity.this, "Welcome " + userName, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.welcomeText) + userName, Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
@@ -229,7 +220,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         if(task.isSuccessful()) {
                             progressDialog.dismiss();
                             startActivity(new Intent(LoginActivity.this,ContentActivity.class));
-                            Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.successfullMessage), Toast.LENGTH_SHORT).show();
                             finish();
 
                         }

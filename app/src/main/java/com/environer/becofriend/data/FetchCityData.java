@@ -68,7 +68,7 @@ public class FetchCityData {
         getUserCity();
         cityRef = mDatabase.child(CITY).child(userCity);
         if(cityRef==null){
-            Toast.makeText(context, "No Data in firebase database", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.noData), Toast.LENGTH_SHORT).show();
             return;
         }
         progressDialog = new ProgressDialog(context);
@@ -82,7 +82,7 @@ public class FetchCityData {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount()==0) {
-                    Toast.makeText(context, "There is no any post in your area", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.noPostsText), Toast.LENGTH_SHORT).show();
                 }
                 else{
 //                    ContentActivity.localPostBtn1.setChecked(true);

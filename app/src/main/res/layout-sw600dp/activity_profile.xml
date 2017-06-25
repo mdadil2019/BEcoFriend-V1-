@@ -30,11 +30,11 @@
 
     <EditText
         android:contentDescription="@string/enterFullName"
+        android:hint="@string/enterFullName"
         android:id="@+id/editTextNameProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/fullNameProfile"
         android:inputType="textPersonName"
         android:textColor="@android:color/black"
         android:textAlignment="center"

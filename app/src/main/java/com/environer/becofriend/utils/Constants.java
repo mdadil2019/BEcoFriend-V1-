@@ -30,5 +30,9 @@ public final class Constants {
     public static final int LOCATION = 4;
     public static final int FINE_LOCATION = 5;
     public static final int CAMERA_REQUEST = 6;
+    public static final String PROFILE_STATUS_PREFERENCE = "ProfileStatus";
+    public static final String OK="ProfileSet";
+    public static final String CANCLED="ProfileNotSet";
+    public static final String STATUS = "Status";
 
 }

@@ -37,6 +37,7 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:contentDescription="@string/mapIconDescription"
                 android:id="@+id/imageViewMapVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

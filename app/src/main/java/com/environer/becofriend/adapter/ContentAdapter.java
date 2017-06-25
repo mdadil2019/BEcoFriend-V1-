@@ -183,7 +183,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
                             //Add the rating user in the list so that I can hide the ratingbar next time
                             currentDB.child(RATING).child(getUserName()).setValue("1");
                             ratingBar.setVisibility(GONE);
-                            Toast.makeText(context, "Thanks for rating: " + new_rating +"/5" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.thanksText) + new_rating + context.getString(R.string.outof5) , Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -249,7 +249,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
         currentDB.child(RATING).child(TOTAL_RATING).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ratingDtl.setText("Rating: " + dataSnapshot.getValue().toString() + " out of 5.0");
+                ratingDtl.setText(context.getString(R.string.ratingText)+ dataSnapshot.getValue().toString() +context.getString(R.string.outOf5Text));
             }
 
             @Override
@@ -332,7 +332,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
             mExoPlayer.setPlayWhenReady(true);
         }
         else{
-            Toast.makeText(context, "Problem in video link", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.videoLinkProblemText), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -380,7 +380,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
                             //Add the rating user in the list so that I can hide the ratingbar next time
                             currentDB.child(RATING).child(getUserName()).setValue("1");
                             ratingBar.setVisibility(GONE);
-                            Toast.makeText(context, "Thanks for rating: " + new_rating +"/5" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.thanksText) + new_rating +context.getString(R.string.outof5) , Toast.LENGTH_SHORT).show();
 
                         }
                     }

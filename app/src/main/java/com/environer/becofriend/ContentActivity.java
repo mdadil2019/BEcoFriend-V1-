@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -18,8 +17,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Slide;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -37,10 +34,9 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -86,6 +82,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     DatabaseReference mDatabase;
     StorageReference mStorage;
     ProgressDialog progressDialog;
+    FirebaseAuth firebaseAuth;
     @BindView(R.id.fab_menu)FloatingActionButton menu_fab;
     private TextView selectLocation;
     public static RadioButton localPostBtn1,allPostBtn1;
@@ -97,40 +94,67 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
-        contentAct = this;
-        ButterKnife.bind(this);
-        localPostBtn1 = localPostBtn;
-        allPostBtn1 = allPostBtn;
-        progressDialog = new ProgressDialog(this);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mStorage = FirebaseStorage.getInstance().getReference();
-        menu_fab.setOnClickListener(this);
-        localPostBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked)
-                {
-                    FetchCityData myCityData = new FetchCityData(ContentActivity.this,recyclerView);
-                    myCityData.getData();
-                }
+        if(!ProfileStatus()){
+            String userName;
+            firebaseAuth = FirebaseAuth.getInstance();
+            if(firebaseAuth.getCurrentUser().getEmail().contains("@eco.com")){
+                String email = firebaseAuth.getCurrentUser().getEmail();
+                userName = email.substring(0,email.indexOf('@')-1);
             }
-        });
-        allPostBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b) {
-                    FetchAllData fetchAllData = new FetchAllData(ContentActivity.this, recyclerView);
-                    fetchAllData.getAllData();
-                }
+            else{
+                userName = firebaseAuth.getCurrentUser().getUid();
             }
-        });
-        FetchCityData myCityData = new FetchCityData(this,recyclerView);
-        myCityData.getData();
+            Intent intent = new Intent(this,ProfileActivity.class);
+            intent.putExtra("userName",userName);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            contentAct = this;
+            ButterKnife.bind(this);
+            localPostBtn1 = localPostBtn;
+            allPostBtn1 = allPostBtn;
+            progressDialog = new ProgressDialog(this);
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            mStorage = FirebaseStorage.getInstance().getReference();
+            menu_fab.setOnClickListener(this);
+            localPostBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        FetchCityData myCityData = new FetchCityData(ContentActivity.this, recyclerView);
+                        myCityData.getData();
+                    }
+                }
+            });
+            allPostBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b) {
+                        FetchAllData fetchAllData = new FetchAllData(ContentActivity.this, recyclerView);
+                        fetchAllData.getAllData();
+                    }
+                }
+            });
+            FetchCityData myCityData = new FetchCityData(this, recyclerView);
+            myCityData.getData();
 //        FetchAllData fetchAllData = new FetchAllData(this,recyclerView);
 //        fetchAllData.getAllData();
+        }
 
     }
 
+    private boolean ProfileStatus() {
+        String result = getProfileStatus();
+        if(result.equals(OK))
+            return true;
+        return false;
+    }
+
+    private String getProfileStatus(){
+        SharedPreferences sharedPreferences = getSharedPreferences(PROFILE_STATUS_PREFERENCE,MODE_PRIVATE);
+        return sharedPreferences.getString(STATUS,CANCLED);
+    }
 
     @Override
     public void onClick(View view) {
@@ -230,7 +254,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == CAMERA_PERMISSION && grantResults[0] == PackageManager.PERMISSION_DENIED){
-            Toast.makeText(this,"You can't post the images!!. It requires permission",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,getString(R.string.cameraPermissionMessage),Toast.LENGTH_LONG).show();
             finish();
         }
         //How to retrieve the index of my location permission for grantResult in order to check it??
@@ -246,6 +270,8 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         ProgressDialog pgdlcity = FetchCityData.progressDialog;
         if(pgdlcity!=null && pgdlcity.isShowing())
             pgdlcity.dismiss();
+        if(progressDialog!=null && progressDialog.isShowing())
+            progressDialog.dismiss();
         SimpleExoPlayer  exo = ContentAdapter.returnInstance();
         if(exo!=null){
             exo.release();
@@ -279,11 +305,12 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
                 Place place = PlacePicker.getPlace(this,data);
                 address = String.valueOf(place.getAddress());
                 coOrdinate = String.valueOf(place.getLatLng());
-                selectLocation.setText(address);
+                if(address!=null && !address.equals(""))
+                    selectLocation.setText(address);
 
             }
             else{
-                Toast.makeText(this, "Please select the place!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.locationInputHandle), Toast.LENGTH_SHORT).show();
             }
         }
         else if(requestCode == VIDEO_REQUEST && resultCode == RESULT_OK){
@@ -316,11 +343,15 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
                 //Upload the database of this post
                 String problem = problemEt.getText().toString();
                 if(problem!=null) {
-                    infoDialog.dismiss();
-                    UploadAllInfo(problem);
+                    if(address!=null && !address.equals("")){
+                        infoDialog.dismiss();
+                        UploadAllInfo(problem);
+                    }
+                    else
+                        Toast.makeText(ContentActivity.this, getString(R.string.locationInputHandle), Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(ContentActivity.this, "Please write your problem!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ContentActivity.this, getString(R.string.problemInputHandle), Toast.LENGTH_SHORT).show();
                 }
 
             }

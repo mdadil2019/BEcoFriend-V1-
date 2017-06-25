@@ -1,6 +1,5 @@
 package com.environer.becofriend;
 
-import android.*;
 import android.Manifest;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
@@ -41,10 +40,14 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.environer.becofriend.utils.Constants.CANCLED;
 import static com.environer.becofriend.utils.Constants.CITY;
 import static com.environer.becofriend.utils.Constants.FINE_LOCATION;
 import static com.environer.becofriend.utils.Constants.FULL_NAME;
 import static com.environer.becofriend.utils.Constants.MAINUSER_IMAGELINK;
+import static com.environer.becofriend.utils.Constants.OK;
+import static com.environer.becofriend.utils.Constants.PROFILE_STATUS_PREFERENCE;
+import static com.environer.becofriend.utils.Constants.STATUS;
 import static com.environer.becofriend.utils.Constants.WRITE_PERMISSION;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
@@ -130,7 +133,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Place place = PlacePicker.getPlace(this,data);
                 selectedCity = String.valueOf(place.getAddress());
                 selectCity.setText(selectedCity);
-                Toast.makeText(this, "Make sure you have selected your city by searching from search box", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.selectCityProperly), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -168,6 +171,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         if(getIntent().getExtras()!=null)
                             addUserInfo(profileImageLink);
                         progressDialog.dismiss();
+
+                        //Store profile status
+                        setProfileStatus();
                         //Setting animation
                         if(Build.VERSION.SDK_INT>= 21)
                         {
@@ -195,6 +201,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         editor.apply();
     }
 
+    private void setProfileStatus(){
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.PROFILE_STATUS_PREFERENCE,MODE_PRIVATE);
+        SharedPreferences.Editor  editor = sharedPreferences.edit();
+        editor.putString(STATUS,OK);
+        editor.apply();
+    }
+
     @Override
     public void onClick(View view) {
         if(view == logoutBtn){
@@ -215,7 +228,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
             try {
                 startActivityForResult(builder.build(this),CITY_SELECT_REQUEST);
-                Toast.makeText(this, "Search your city name in above search box", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.selectCityProperly), Toast.LENGTH_LONG).show();
             } catch (GooglePlayServicesRepairableException e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             } catch (GooglePlayServicesNotAvailableException e) {
@@ -226,9 +239,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 String pName = profileName.getText().toString();
                 if(pName!=null && !pName.equals("")){
                         if(imagePath!=null && !imagePath.equals("")) {
-                            if(!selectedCity.equals("Select City")&&!selectedCity.equals("")){
-                                //call uploadImageToFbStorage
-                                uploadImageToFbStorage(imagePath);
+                            if(selectedCity!=null&&!selectedCity.equals("")){
+                                    uploadImageToFbStorage(imagePath);
                             }
                         }
 

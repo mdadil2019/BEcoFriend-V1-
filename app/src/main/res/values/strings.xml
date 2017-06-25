@@ -22,9 +22,9 @@
     <string name="ratingLabel">Total Rating</string>
     <string name="fullNameDetail">Full Name</string>
     <string name="enterEmail">Enter email address</string>
-    <string name="enterPassword">Enter your password</string>
-    <string name="enterNewUserName">Enter new user name</string>
-    <string name="enterNewPassword">Enter password that you want to set</string>
+    <string name="enterPassword">Password</string>
+    <string name="enterNewUserName">New user name</string>
+    <string name="enterNewPassword">New Password</string>
     <string name="signUpDescription">Signing Up</string>
     <string name="signInDescription">Signing In</string>
     <string name="newAccountDescription">Create new account</string>
@@ -49,4 +49,21 @@
     <string name="add_widget">Add widget</string>
     <string name="mapIconDescription">Map of current post</string>
     <string name="imageViewPostDescription">Image of the issue</string>
+    <string name="credentialsInputHandle">Please enter the credentials to login!</string>
+    <string name="problemInputHandle">Please write your problem!</string>
+    <string name="locationInputHandle">Please select the location!</string>
+    <string name="emailDescription">Send email</string>
+    <string name="cameraPermissionMessage">You can\'t post the images!!. It requires permission</string>
+    <string name="videoLinkProblemText">Problem in video link</string>
+    <string name="welcomeText">Welcome</string>
+    <string name="authenticationFailedMessage">Authentication failed</string>
+    <string name="successfullMessage">Login Successfully</string>
+    <string name="selectCityProperly">Make sure you have selected your city by searching from search box</string>
+    <string name="thanksText">Thanks for rating:</string>
+    <string name="outof5"> /5</string>
+    <string name="noPostsText">No any posts are available</string>
+    <string name="noData">No data in database</string>
+    <string name="ratingText">Rating:</string>
+    <string name="outOf5Text">out of 5</string>
+    <string name="widgetNotice">Create account and set profile to use the widget</string>
 </resources>

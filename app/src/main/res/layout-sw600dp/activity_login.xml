@@ -12,13 +12,13 @@
 
     <EditText
         android:contentDescription="@string/enterEmail"
+        android:hint="@string/enterEmail"
         android:id="@+id/editTextEmailLog"
         android:layout_width="341dp"
         android:layout_height="wrap_content"
         android:alpha="0.8"
         android:background="@drawable/rounded_edittext"
         android:ems="10"
-        android:hint="@string/emailHint"
         android:inputType="textEmailAddress"
         android:padding="@dimen/editTextPaddings"
         android:textColorHint="@color/colorAccent"
@@ -31,6 +31,7 @@
 
     <EditText
         android:contentDescription="@string/enterPassword"
+        android:hint="@string/enterPassword"
         android:id="@+id/editTextPassLog"
         android:layout_width="340dp"
         android:layout_height="wrap_content"
@@ -41,7 +42,6 @@
         android:drawableStart="@drawable/ic_lock_outline_white_24px"
         android:drawablePadding="@dimen/paddingwithIcon"
         android:ems="10"
-        android:hint="@string/passHint"
         android:inputType="textPassword"
         android:padding="@dimen/editTextPaddings"
         android:textColor="@color/colorAccent"

@@ -9,14 +9,13 @@
 
     <EditText
         android:contentDescription="@string/enterNewUserName"
-
+        android:hint="@string/enterNewUserName"
         android:id="@+id/editTextUserNameReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.8"
         android:background="@drawable/rounded_edittext"
         android:ems="10"
-        android:hint="@string/newUserNameText"
         android:inputType="textPersonName"
         android:padding="@dimen/editTextPaddings"
         android:textColor="@color/colorAccent"
@@ -26,7 +25,7 @@
 
     <EditText
         android:contentDescription="@string/enterNewPassword"
-
+        android:hint="@string/enterNewPassword"
         android:id="@+id/editTextPassReg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +33,6 @@
         android:alpha="0.8"
         android:background="@drawable/rounded_edittext"
         android:ems="10"
-        android:hint="@string/passHint"
         android:inputType="textPassword"
         android:padding="@dimen/editTextPaddings"
         android:textColor="@color/colorAccent"

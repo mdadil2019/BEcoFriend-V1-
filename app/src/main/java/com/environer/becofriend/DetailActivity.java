@@ -204,7 +204,7 @@ public class DetailActivity extends AppCompatActivity {
         }
         problemTv.setText(problem);
         addressTv.setText(address);
-        ratingTv.setText("Rating: " + rating+" out of 5");
+        ratingTv.setText(getString(R.string.ratingText )+ rating+getString(R.string.outOf5Text));
         mainUserName.setText(mainUserFullName);
         Picasso.with(this).load(mainUserImageLink).error(R.drawable.error).into(mainUserImage);
         if(progressDialog.isShowing())
@@ -232,7 +232,7 @@ public class DetailActivity extends AppCompatActivity {
             mExoPlayer.setPlayWhenReady(true);
         }
         else{
-            Toast.makeText(this, "Problem in video link", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.videoLinkProblemText), Toast.LENGTH_SHORT).show();
         }
     }
 }
